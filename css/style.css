@@ -12,9 +12,9 @@ body {
 
 .navbar {
   width: 100%;
-  height: 64px; /* Fixed height for reliable divider */
+  height: 64px;
   min-height: 64px;
-  padding: 0;   /* No left/right padding, logo flush */
+  padding: 0 32px 0 0; /* Right padding for social icons, left = 0 for flush logo */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,7 +41,8 @@ body {
   background: transparent;
   border-radius: 8px;
   overflow: hidden;
-  transform: translateX(4px); /* Shift right for visual balance */
+  /* Increased right offset for optical centering, adjust as needed */
+  transform: translateX(10px);
   /* Optional: outline for debugging the square
   border: 1px solid #ff0;
   */
@@ -64,7 +65,6 @@ body {
   width: 1px;
   background: #333;
   align-self: stretch;
-  /* No margin for flush fit */
 }
 
 .navbar-right {
@@ -72,6 +72,7 @@ body {
   align-items: center;
   gap: 18px;
   justify-content: flex-end;
+  margin-right: 16px; /* Add right margin for spacing from edge */
 }
 
 .social-icon {
@@ -99,7 +100,7 @@ a:hover, a:focus {
   .navbar {
     height: 48px;
     min-height: 48px;
-    padding: 0;
+    padding: 0 8px 0 0; /* Less right padding on mobile, left still flush */
   }
   .navbar-left, .navbar-right {
     align-items: center;
@@ -112,7 +113,7 @@ a:hover, a:focus {
     height: 36px;
     min-width: 36px;
     min-height: 36px;
-    transform: translateX(2px);
+    transform: translateX(6px); /* Slightly less offset on mobile */
   }
   .logo-pictorial img,
   .logo-pictorial svg {
@@ -120,7 +121,7 @@ a:hover, a:focus {
     height: 80%;
   }
   .logo-divider {
-    height: 100%; /* Full height of navbar even on mobile */
+    height: 100%;
     align-self: stretch;
   }
   .logo-text img {
@@ -128,5 +129,6 @@ a:hover, a:focus {
   }
   .navbar-right {
     gap: 8px;
+    margin-right: 6px;
   }
 }
