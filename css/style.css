@@ -52,7 +52,7 @@ body {
   height: 28px;
   width: 28px;
   display: block;
-  filter: brightness(0) invert(1); /* Makes dark SVGs white on dark bg */
+  filter: brightness(0) invert(1);
   transition: opacity 0.2s;
 }
 
@@ -71,34 +71,26 @@ a:hover, a:focus {
 
 @media (max-width: 650px) {
   .navbar {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    padding: 12px 16px;
-    gap: 10px;
+    justify-content: space-between;
+    padding: 12px 8px;
+    gap: 0;
   }
-  .navbar-left,
-  .navbar-right {
-    width: 100%;
-    justify-content: center;
+  .navbar-left, .navbar-right {
     align-items: center;
     display: flex;
-  }
-  .navbar-left {
-    gap: 10px;
-    margin-bottom: 6px;
+    gap: 8px;
   }
   .logo-divider {
-    height: 24px;
-    margin: 0 8px;
+    height: 20px;
+    margin: 0 6px;
   }
   .logo-pictorial img,
   .logo-text img {
-    height: 28px;
+    height: 24px;
   }
   .navbar-right {
-    flex-direction: row;
-    gap: 12px;
-    margin-top: 0;
+    gap: 8px;
   }
 }
