@@ -86,6 +86,9 @@ a:hover, a:focus {
     height: 20px;
     margin: 0 6px;
   }
+  .logo-pictorial {
+  margin-left: 12px;
+}
   .logo-pictorial img,
   .logo-text img {
     height: 24px;
