@@ -13,6 +13,19 @@ body {
   letter-spacing: 0.01em;
 }
 
+.main-content {
+  margin: 60px; /* or whatever spacing you want */
+}
+
+.text-container {
+  width: 80%;
+  max-width: 900px;    /* Optional: prevents it from getting too wide */
+  margin-left: 32px;   /* Space from the left edge */
+  margin-right: auto;  /* Pushes container to the left */
+  padding: 0 16px;     /* Padding for breathing room on small screens */
+  box-sizing: border-box;
+}
+
 h1, .title-main {
   font-weight: 700;
   font-size: 2.5rem;
