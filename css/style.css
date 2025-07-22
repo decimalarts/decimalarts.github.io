@@ -129,4 +129,21 @@ a:hover, a:focus {
     gap: 8px;
     margin-right: 6px;
   }
+  #mouse-trail {
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 9999;
+  overflow: visible;
+}
+
+.trail-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(10px);
+  opacity: 0.6;
+  will-change: transform, background;
+  transition: opacity 0.3s linear;
+}
 }
