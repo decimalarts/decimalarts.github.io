@@ -3,12 +3,58 @@
   margin: 0;
   padding: 0;
 }
-
+ @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap');
 body {
   background: #000;
   color: #fff;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: 'Red Hat Display', Arial, sans-serif;
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
 }
+
+h1, .title-main {
+  font-weight: 700;
+  font-size: 2.5rem;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+h2, .title-section {
+  font-weight: 600;
+  font-size: 1.8rem;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+h3 {
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: #f4f4f8;
+}
+
+p {
+  font-size: 1.08rem;
+  color: #e5e5e5;
+}
+
+a {
+  color: #85aaff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.navbar {
+  font-weight: 500;
+  font-size: 1rem;
+
+}
+
 
 .navbar {
   width: 100%;
@@ -52,6 +98,8 @@ body {
   object-fit: contain;
   display: block;
 }
+
+
 
 .logo-text img {
   height: 14px !important; /* Fixed height for text logo */
