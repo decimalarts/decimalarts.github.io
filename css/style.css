@@ -1,8 +1,8 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #fff;
-  color: #222;
+  background: #15151a;        /* Dark background */
+  color: #f4f4f8;             /* Light text */
 }
 
 .navbar {
@@ -10,10 +10,10 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 18px 32px;
-  background: #fff;
+  background: #23232c;        /* Darker navbar */
   position: relative;
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.32);
 }
 
 .navbar-left {
@@ -40,7 +40,17 @@ body {
   height: 22px;
   opacity: 0.88;
   transition: opacity 0.2s;
+  filter: invert(1) brightness(1.6); /* Makes dark SVGs visible on dark bg */
 }
 .social-icon:hover {
   opacity: 1;
+}
+
+/* For extra polish, you can add link and button styles as well */
+a {
+  color: #85aaff;
+  text-decoration: none;
+}
+a:hover {
+  color: #fff;
 }
