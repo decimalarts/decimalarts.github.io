@@ -14,7 +14,7 @@ body {
   width: 100%;
   height: 64px;
   min-height: 64px;
-  padding: 0 32px 0 0; /* Right padding for social icons, left = 0 for flush logo */
+  padding: 0 32px 0 0; /* Right padding for social icons, left flush for logo */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,11 +41,8 @@ body {
   background: transparent;
   border-radius: 8px;
   overflow: hidden;
-  /* Increased right offset for optical centering, adjust as needed */
-  transform: translateX(14px);
-  /* Optional: outline for debugging the square
-  border: 1px solid #ff0;
-  */
+  /* Adjust for optical centering */
+  transform: translateX(10px);
 }
 
 .logo-pictorial img,
@@ -57,8 +54,9 @@ body {
 }
 
 .logo-text img {
+  height: 14px !important; /* Fixed height for text logo */
+  width: auto;
   display: block;
-  height: 40px;
 }
 
 .logo-divider {
@@ -72,7 +70,7 @@ body {
   align-items: center;
   gap: 18px;
   justify-content: flex-end;
-  margin-right: 16px; /* Add right margin for spacing from edge */
+  margin-right: 16px; /* Space between icons and edge */
 }
 
 .social-icon {
@@ -100,7 +98,7 @@ a:hover, a:focus {
   .navbar {
     height: 48px;
     min-height: 48px;
-    padding: 0 8px 0 0; /* Less right padding on mobile, left still flush */
+    padding: 0 8px 0 0; /* Less right padding on mobile */
   }
   .navbar-left, .navbar-right {
     align-items: center;
@@ -113,7 +111,7 @@ a:hover, a:focus {
     height: 36px;
     min-width: 36px;
     min-height: 36px;
-    transform: translateX(6px); /* Slightly less offset on mobile */
+    transform: translateX(6px);
   }
   .logo-pictorial img,
   .logo-pictorial svg {
@@ -125,7 +123,7 @@ a:hover, a:focus {
     align-self: stretch;
   }
   .logo-text img {
-    height: 24px;
+    height: 14px !important; /* Stay at 14px even on mobile */
   }
   .navbar-right {
     gap: 8px;
