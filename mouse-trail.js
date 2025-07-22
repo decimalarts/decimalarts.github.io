@@ -1,115 +1,135 @@
-// Get the container (should exist in HTML as <div id="mouse-trail"></div>)
-const trailContainer = document.getElementById('mouse-trail');
+const canvas = document.getElementById('mouse-trail-canvas');
+const ctx = canvas.getContext('2d');
 
-// If not found, create it (safe fallback)
-if (!trailContainer) {
-  const div = document.createElement('div');
-  div.id = 'mouse-trail';
-  document.body.appendChild(div);
-}
+let w = window.innerWidth, h = window.innerHeight;
+canvas.width = w;
+canvas.height = h;
 
-// Parameters
-const TRAIL_LENGTH = 18;
-const DOT_SIZE = 32; // px
-const DOT_BLUR = 10; // px
-const DOT_OPACITY = 0.6;
-const GREY_RGB = [69, 69, 69];
-const ORANGE_RGB = [241, 90, 36];
-const IDLE_FADE_MS = 500;
-
-// State
-let dots = [];
-let lastPos = {x: window.innerWidth/2, y: window.innerHeight/2};
-let lastMoveTime = Date.now();
-let lastColor = 'rgba(69,69,69,0.6)';
-let idleInterval = null;
-
-// Helper: linear interpolation
-function lerp(a, b, t) { return a + (b - a) * t; }
-
-// Color function for speed
-function colorForSpeed(speed) {
-  // Clamp speed 0..1
-  speed = Math.min(1, Math.max(0, speed));
-  // Interpolate RGB
-  const r = Math.round(lerp(GREY_RGB[0], ORANGE_RGB[0], speed));
-  const g = Math.round(lerp(GREY_RGB[1], ORANGE_RGB[1], speed));
-  const b = Math.round(lerp(GREY_RGB[2], ORANGE_RGB[2], speed));
-  const a = lerp(DOT_OPACITY, 1, speed);
-  return `rgba(${r},${g},${b},${a})`;
-}
-
-// Add a glowing dot
-function addDot(x, y, color) {
-  const dot = document.createElement('div');
-  dot.className = 'trail-dot';
-  dot.style.left = `${x - DOT_SIZE/2}px`;
-  dot.style.top = `${y - DOT_SIZE/2}px`;
-  dot.style.width = `${DOT_SIZE}px`;
-  dot.style.height = `${DOT_SIZE}px`;
-  dot.style.position = 'absolute';
-  dot.style.pointerEvents = 'none';
-  dot.style.borderRadius = '50%';
-  dot.style.opacity = DOT_OPACITY;
-  dot.style.filter = `blur(${DOT_BLUR}px)`;
-  dot.style.background = `radial-gradient(circle, ${color} 0%, transparent 80%)`;
-  dot.style.transition = 'opacity 0.3s linear';
-  document.getElementById('mouse-trail').appendChild(dot);
-  dots.push(dot);
-  // Remove old dots
-  if (dots.length > TRAIL_LENGTH) {
-    const oldDot = dots.shift();
-    oldDot.style.opacity = 0;
-    setTimeout(() => oldDot && oldDot.remove(), 300);
-  }
-}
-
-// Mouse movement handler
-document.addEventListener('mousemove', (e) => {
-  const now = Date.now();
-  const dx = e.clientX - lastPos.x;
-  const dy = e.clientY - lastPos.y;
-  const dist = Math.sqrt(dx*dx + dy*dy);
-  const dt = now - lastMoveTime;
-  // Use pixels per ms, normalize to 0...1 (tune denominator for sensitivity)
-  let speed = Math.min(1, dist / Math.max(8, dt));
-  if (dt > 100) speed = 0; // If mouse stopped, fade back to grey/transparent
-
-  const color = colorForSpeed(speed);
-  addDot(e.clientX, e.clientY, color);
-
-  lastPos = {x: e.clientX, y: e.clientY};
-  lastMoveTime = now;
-  lastColor = color;
-
-  if (idleInterval) clearInterval(idleInterval);
-  idleInterval = setInterval(() => {
-    // Fade trail to transparent if idle
-    if (Date.now() - lastMoveTime > IDLE_FADE_MS) {
-      addDot(lastPos.x, lastPos.y, 'rgba(69,69,69,0.08)');
-    }
-  }, 30);
+window.addEventListener('resize', () => {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
 });
 
-// Initial setup: ensure container is styled
-(function injectTrailStyle() {
-  if (document.getElementById('mouse-trail-style')) return;
-  const style = document.createElement('style');
-  style.id = 'mouse-trail-style';
-  style.innerHTML = `
-    #mouse-trail {
-      pointer-events: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 9999;
-      overflow: visible;
+let trail = [];
+const TRAIL_LENGTH = 32;
+
+let lastMoveTime = Date.now();
+let lastPos = {x: w/2, y: h/2};
+let speed = 0;
+
+// Helper for organic jitter
+function jitter(val, amount) {
+  return val + (Math.random() - 0.5) * amount;
+}
+
+// Helper for lerping
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    const dx = e.clientX - lastPos.x;
+    const dy = e.clientY - lastPos.y;
+    speed = Math.sqrt(dx*dx + dy*dy) / Math.max(1, now - lastMoveTime);
+    lastMoveTime = now;
+    lastPos = {x: e.clientX, y: e.clientY};
+    trail.push({
+        x: e.clientX,
+        y: e.clientY,
+        t: now,
+        vx: dx,
+        vy: dy,
+        // Give each point a random "seed" for organic shape
+        seed: Math.random() * 1000
+    });
+    if (trail.length > TRAIL_LENGTH) trail.shift();
+});
+
+function organicBlobPath(cx, cy, r, t, seed) {
+    // Draw a wobbly/organic blob using 8 points around a circle, with per-point jitter
+    ctx.beginPath();
+    for (let i = 0; i < 8; ++i) {
+        let angle = (i/8) * Math.PI * 2;
+        // Use time and seed for smooth organic motion
+        let localR = r + Math.sin(t/400 + angle*2 + seed) * r * 0.2 + (Math.random()-0.5)*r*0.05;
+        let px = cx + Math.cos(angle) * localR;
+        let py = cy + Math.sin(angle) * localR;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
     }
-    .trail-dot {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      will-change: transform, background;
+    ctx.closePath();
+}
+
+function draw() {
+    ctx.clearRect(0,0,w,h);
+
+    // Fade out trail if idle
+    const fade = Math.min(1, (Date.now() - lastMoveTime)/900);
+    const trailAlpha = lerp(1, 0, fade);
+
+    for (let i=0; i<trail.length; ++i) {
+        const p = trail[i];
+        // Trail age (0=latest, 1=oldest)
+        const tNorm = i / trail.length;
+        // Bigger + more colored at faster speeds, smaller/grey when slow
+        const baseR = lerp(16, 60, speed * 1.2) * (1-tNorm*0.5);
+        // Color: grey to orange
+        const colorStop = speed > 0.6 ? lerp(0.5, 1, speed) : lerp(0.3, 0.5, tNorm);
+        const r = Math.round(lerp(69, 241, colorStop));
+        const g = Math.round(lerp(69, 90, colorStop));
+        const b = Math.round(lerp(69, 36, colorStop));
+        // Soft alpha, tapers with trail and with idle
+        const alpha = lerp(0.23, 0.73, 1-tNorm) * trailAlpha;
+        // Main organic blob
+        ctx.save();
+        organicBlobPath(
+            jitter(p.x, 5 + tNorm*20 + Math.sin(Date.now()/600 + p.seed)*10),
+            jitter(p.y, 5 + tNorm*20 + Math.cos(Date.now()/700 + p.seed)*10),
+            baseR + Math.sin(Date.now()/300 + p.seed)*baseR*0.15,
+            Date.now(),
+            p.seed
+        );
+        // Layered gradients for "grain"
+        let grad = ctx.createRadialGradient(p.x, p.y, baseR*0.2, p.x, p.y, baseR);
+        grad.addColorStop(0, `rgba(${r},${g},${b},${alpha*1.1})`);
+        grad.addColorStop(0.85, `rgba(${r},${g},${b},${alpha*0.3})`);
+        grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = 1;
+        ctx.fill();
+
+        // Overdraw a few blurred ellipses for "soft noise"
+        for (let k=0;k<3;++k) {
+            ctx.beginPath();
+            ctx.ellipse(
+                jitter(p.x, baseR*0.2),
+                jitter(p.y, baseR*0.2),
+                baseR * lerp(0.7, 1.2, Math.random()),
+                baseR * lerp(0.7, 1.2, Math.random()),
+                Math.random()*Math.PI*2,
+                0, Math.PI*2
+            );
+            ctx.closePath();
+            ctx.fillStyle = `rgba(${r},${g},${b},${alpha*0.09})`;
+            ctx.filter = "blur(6px)";
+            ctx.fill();
+            ctx.filter = "none";
+        }
+        ctx.restore();
     }
-  `;
-  document.head.appendChild(style);
-})();
+
+    // "Noise" layer: sprinkle a few random low-opacity dots for analog feel
+    for (let i=0;i<10;++i) {
+        ctx.beginPath();
+        let x = Math.random()*w, y = Math.random()*h;
+        ctx.arc(x, y, Math.random()*1.5+0.5, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(255,255,255,0.015)";
+        ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+}
+draw();
