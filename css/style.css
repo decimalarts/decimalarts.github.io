@@ -19,11 +19,19 @@ body {
 
 .text-container {
   width: 80%;
-  max-width: 900px;    /* Optional: prevents it from getting too wide */
-  margin-left: 32px;   /* Space from the left edge */
-  margin-right: auto;  /* Pushes container to the left */
-  padding: 0 16px;     /* Padding for breathing room on small screens */
+  max-width: 800px;
+  margin-left: 40px;   /* Space from the left */
+  margin-right: auto;  /* Left-align the container */
+  padding: 0 0 0 0;    /* No extra padding unless you want it */
   box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .text-container {
+    width: 95%;
+    margin-left: 12px;
+    max-width: none;
+  }
 }
 
 h1, .title-main {
