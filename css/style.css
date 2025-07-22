@@ -1,151 +1,17 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: #000;
-  color: #fff;
-  font-family: 'Inter', Arial, sans-serif;
-}
-
-.navbar {
-  width: 100%;
-  height: 64px;
-  min-height: 64px;
-  padding: 0 32px 0 0; /* Right padding for social icons, left flush for logo */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #111;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-}
-
-.navbar-left {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  gap: 20px;
-}
-
-.logo-pictorial {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border-radius: 8px;
-  overflow: hidden;
-  /* Adjust for optical centering */
-  transform: translateX(10px);
-}
-
-.logo-pictorial img,
-.logo-pictorial svg {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-  display: block;
-}
-
-.logo-text img {
-  height: 14px !important; /* Fixed height for text logo */
-  width: auto;
-  display: block;
-}
-
-.logo-divider {
-  width: 1px;
-  background: #333;
-  align-self: stretch;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  justify-content: flex-end;
-  margin-right: 16px; /* Space between icons and edge */
-}
-
-.social-icon {
-  height: 28px;
-  width: 28px;
-  display: block;
-  filter: brightness(0) invert(1);
-  transition: opacity 0.2s;
-}
-
-.social-icon:hover {
-  opacity: 0.7;
-}
-
-a {
-  color: #fff;
-  text-decoration: none;
-}
-
-a:hover, a:focus {
-  color: #ff0;
-}
-
-@media (max-width: 650px) {
-  .navbar {
-    height: 48px;
-    min-height: 48px;
-    padding: 0 8px 0 0; /* Less right padding on mobile */
-  }
-  .navbar-left, .navbar-right {
-    align-items: center;
-    display: flex;
-    gap: 8px;
-    height: 100%;
-  }
-  .logo-pictorial {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
-    transform: translateX(6px);
-  }
-  .logo-pictorial img,
-  .logo-pictorial svg {
-    width: 80%;
-    height: 80%;
-  }
-  .logo-divider {
-    height: 100%;
-    align-self: stretch;
-  }
-  .logo-text img {
-    height: 14px !important; /* Stay at 14px even on mobile */
-  }
-  .navbar-right {
-    gap: 8px;
-    margin-right: 6px;
-  }
-/* Gradient CSS */
 #mouse-trail-blob {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 650px;
-    height: 650px;
-    border-radius: 100%;
-    background-image: linear-gradient(#1100ff 10%, #ff00f2);
-    filter: blur(250px);
-    transition: all 450ms ease-out;
-    position: fixed;
-    pointer-events: none;
-    left: 0;
-    top: 0;
-    transform: translate(calc(-50% + 15px), -50%);
-    z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 650px;
+  height: 650px;
+  border-radius: 100%;
+  background-image: linear-gradient(#1100ff 10%, #ff00f2);
+  filter: blur(250px);
+  transition: all 450ms ease-out;
+  position: fixed;
+  pointer-events: none;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Use 1 or higher to make sure it's above the background, but below your nav/content */
 }
-}
-
