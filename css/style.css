@@ -68,14 +68,13 @@ body {
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 28px;
   justify-content: flex-end;
   margin-right: 16px; /* Space between icons and edge */
 }
 
 .social-icon {
-  height: 28px;
-  width: 28px;
+  height: 18px;
   display: block;
   filter: brightness(0) invert(1);
   transition: opacity 0.2s;
@@ -126,7 +125,7 @@ a:hover, a:focus {
     height: 14px !important; /* Stay at 14px even on mobile */
   }
   .navbar-right {
-    gap: 8px;
+    gap: 18px;
     margin-right: 6px;
   }
 }
