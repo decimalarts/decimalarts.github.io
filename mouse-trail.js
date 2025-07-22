@@ -1,4 +1,4 @@
-var cursor = document.querySelector('.blob');
+var cursor = document.querySelector('.mouse-trail');
 
 document.addEventListener('mousemove', function(e){
   var x = e.clientX;
