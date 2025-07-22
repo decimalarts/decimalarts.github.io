@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: #000;
   color: #fff;
@@ -15,12 +21,43 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-pictorial img,
+.logo-text img {
+  display: block;
+  height: 40px;
+}
+
 .logo-divider {
   width: 1px;
   height: 32px;
   background: #333;
   margin: 0 16px;
   display: inline-block;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: flex-end;
+}
+
+.social-icon {
+  height: 28px;
+  width: 28px;
+  display: block;
+  filter: brightness(0) invert(1); /* Makes dark SVGs white on dark bg */
+  transition: opacity 0.2s;
+}
+
+.social-icon:hover {
+  opacity: 0.7;
 }
 
 a {
@@ -32,14 +69,30 @@ a:hover, a:focus {
   color: #ff0;
 }
 
-.social-icon {
-  height: 28px;
-  width: 28px;
-  display: block;
-  filter: brightness(0) invert(1); /* invert if icons are dark */
-  transition: opacity 0.2s;
-}
-
-.social-icon:hover {
-  opacity: 0.7;
+@media (max-width: 650px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .navbar-left {
+    gap: 10px;
+  }
+  .logo-divider {
+    height: 24px;
+    margin: 0 8px;
+  }
+  .logo-pictorial img,
+  .logo-text img {
+    height: 28px;
+  }
+  .navbar-right {
+    display: flex;
+    flex-direction: row; /* ensure horizontal stacking */
+    gap: 12px;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 6px;
+  }
 }
