@@ -42,7 +42,7 @@ body {
   border-radius: 8px;
   overflow: hidden;
   /* Increased right offset for optical centering, adjust as needed */
-  transform: translateX(10px);
+  transform: translateX(14px);
   /* Optional: outline for debugging the square
   border: 1px solid #ff0;
   */
