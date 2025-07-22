@@ -129,7 +129,7 @@ a:hover, a:focus {
     gap: 8px;
     margin-right: 6px;
   }
-  #mouse-trail /* Gradient CSS */
+/* Gradient CSS */
 .mouse-trail {
     display: flex;
     justify-content: center;
@@ -149,12 +149,3 @@ a:hover, a:focus {
 }
 }
 
-.trail-dot {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(10px);
-  opacity: 0.6;
-  will-change: transform, background;
-  transition: opacity 0.3s linear;
-}
