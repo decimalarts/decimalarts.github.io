@@ -1,56 +1,132 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: #15151a;        /* Dark background */
-  color: #f4f4f8;             /* Light text */
+  padding: 0;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
 }
 
 .navbar {
+  width: 100%;
+  height: 64px;
+  min-height: 64px;
+  padding: 0 32px 0 0; /* Right padding for social icons, left flush for logo */
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 18px 32px;
-  background: #23232c;        /* Darker navbar */
-  position: relative;
-  z-index: 10;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.32);
+  justify-content: space-between;
+  background: #111;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .navbar-left {
   display: flex;
   align-items: center;
+  height: 100%;
+  gap: 20px;
 }
 
-.logo-pictorial,
-.logo-text {
-  display: inline-block;
+.logo-pictorial {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  /* Adjust for optical centering */
+  transform: translateX(10px);
+}
+
+.logo-pictorial img,
+.logo-pictorial svg {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  display: block;
+}
+
+.logo-text img {
+  height: 14px !important; /* Fixed height for text logo */
+  width: auto;
+  display: block;
 }
 
 .logo-divider {
-  width: 18px;
+  width: 1px;
+  background: #333;
+  align-self: stretch;
 }
 
-.navbar-right a {
-  margin-left: 18px;
-  display: inline-block;
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: flex-end;
+  margin-right: 16px; /* Space between icons and edge */
 }
 
 .social-icon {
-  width: 22px;
-  height: 22px;
-  opacity: 0.88;
+  height: 28px;
+  width: 28px;
+  display: block;
+  filter: brightness(0) invert(1);
   transition: opacity 0.2s;
-  filter: invert(1) brightness(1.6); /* Makes dark SVGs visible on dark bg */
-}
-.social-icon:hover {
-  opacity: 1;
 }
 
-/* For extra polish, you can add link and button styles as well */
+.social-icon:hover {
+  opacity: 0.7;
+}
+
 a {
-  color: #85aaff;
+  color: #fff;
   text-decoration: none;
 }
-a:hover {
-  color: #fff;
+
+a:hover, a:focus {
+  color: #ff0;
+}
+
+@media (max-width: 650px) {
+  .navbar {
+    height: 48px;
+    min-height: 48px;
+    padding: 0 8px 0 0; /* Less right padding on mobile */
+  }
+  .navbar-left, .navbar-right {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    height: 100%;
+  }
+  .logo-pictorial {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    transform: translateX(6px);
+  }
+  .logo-pictorial img,
+  .logo-pictorial svg {
+    width: 80%;
+    height: 80%;
+  }
+  .logo-divider {
+    height: 100%;
+    align-self: stretch;
+  }
+  .logo-text img {
+    height: 14px !important; /* Stay at 14px even on mobile */
+  }
+  .navbar-right {
+    gap: 8px;
+    margin-right: 6px;
+  }
 }
