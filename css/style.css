@@ -110,7 +110,9 @@ a:hover, a:focus {
     height: 36px;
     min-width: 36px;
     min-height: 36px;
-    transform: translateX(6px);
+    transform: translateX(8px);
+    margin-left: 4px;
+    margin-right: 4px;
   }
   .logo-pictorial img,
   .logo-pictorial svg {
