@@ -3,8 +3,85 @@ const gradient = document.querySelector('.gradient');
 const h1 = hero.querySelector('h1');
 const words = hero.querySelectorAll('.hover-word');
 
-let sparksInterval = null; // Track the interval for sparks
+let sparksInterval = null;
 
+// Helper: trigger word animation
+function triggerWordEnter(word, event) {
+  words.forEach(w => w.classList.remove('active'));
+  word.classList.add('active');
+  h1.classList.add('dimmed');
+  hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+  gradient.classList.remove('pulse');
+
+  if (sparksInterval) {
+    clearInterval(sparksInterval);
+    sparksInterval = null;
+  }
+
+  if (word.classList.contains('nothing')) {
+    setGradient('grey');
+    hero.classList.add('nothing-hover');
+    createDustParticles();
+  } else if (word.classList.contains('something')) {
+    setGradient('light-grey');
+    hero.classList.add('something-hover');
+    gradient.classList.add('pulse');
+  } else if (word.classList.contains('story')) {
+    setGradient('orange');
+    hero.classList.add('story-hover');
+    sparksInterval = setInterval(createSparks, 120);
+  }
+  moveGradient(event);
+}
+
+function triggerWordLeave(event) {
+  words.forEach(w => w.classList.remove('active'));
+  h1.classList.remove('dimmed');
+  hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+  gradient.classList.remove('pulse');
+  setGradient('default');
+  moveGradient(event);
+
+  if (sparksInterval) {
+    clearInterval(sparksInterval);
+    sparksInterval = null;
+  }
+}
+
+// Attach both mouse and touch/click listeners:
+words.forEach(word => {
+  word.addEventListener('mouseenter', e => triggerWordEnter(word, e));
+  word.addEventListener('mouseleave', e => triggerWordLeave(e));
+  word.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    triggerWordEnter(word, e.touches[0] || e);
+  }, {passive: false});
+  word.addEventListener('touchend', function(e) {
+    triggerWordLeave(e.touches[0] || e);
+  });
+  word.addEventListener('click', function(e) {
+    triggerWordEnter(word, e);
+  });
+  // Prevent prompt nudge if interacting
+  word.addEventListener('mouseenter', () => word.classList.remove('prompting'));
+  word.addEventListener('touchstart', () => word.classList.remove('prompting'));
+  word.addEventListener('click', () => word.classList.remove('prompting'));
+});
+
+// Periodic nudge animation to prompt tap/hover
+function promptWordsPeriodically() {
+  setInterval(() => {
+    words.forEach(word => {
+      if (!word.classList.contains('active')) {
+        word.classList.add('prompting');
+        setTimeout(() => word.classList.remove('prompting'), 1200);
+      }
+    });
+  }, 3500); // every 3.5 seconds
+}
+promptWordsPeriodically();
+
+// Gradient always visible and follows pointer/tap
 function setGradient(color) {
   switch(color) {
     case 'grey':
@@ -23,69 +100,28 @@ function setGradient(color) {
 
 function moveGradient(e) {
   const rect = hero.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  gradient.style.left = `${x - 325}px`;
-  gradient.style.top = `${y - 325}px`;
+  const x = (e.clientX || e.pageX) - rect.left;
+  const y = (e.clientY || e.pageY) - rect.top;
+  // gradient size is 650px (or 350px mobile), center it
+  const size = gradient.offsetWidth;
+  gradient.style.left = `${x - size/2}px`;
+  gradient.style.top = `${y - size/2}px`;
 }
 
-// Always follow mouse within hero
+// Always follow mouse/tap within hero
 hero.addEventListener('mousemove', function(e){
   moveGradient(e);
 });
-
-words.forEach(word => {
-  word.addEventListener('mouseenter', function(e) {
-    words.forEach(w => w.classList.remove('active'));
-    word.classList.add('active');
-    h1.classList.add('dimmed');
-    hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
-    gradient.classList.remove('pulse'); // always remove before setting
-
-    // Stop sparks unless story is hovered
-    if (sparksInterval) {
-      clearInterval(sparksInterval);
-      sparksInterval = null;
-    }
-
-    if (word.classList.contains('nothing')) {
-      setGradient('grey');
-      hero.classList.add('nothing-hover');
-      createDustParticles(); // Only spawn once!
-    } else if (word.classList.contains('something')) {
-      setGradient('light-grey'); // initial color
-      hero.classList.add('something-hover');
-      gradient.classList.add('pulse');
-    } else if (word.classList.contains('story')) {
-      setGradient('orange');
-      hero.classList.add('story-hover');
-      if (sparksInterval) clearInterval(sparksInterval);
-      sparksInterval = setInterval(createSparks, 120); // lots of sparks
-    }
-    moveGradient(e);
-  });
-
-  word.addEventListener('mouseleave', function(e) {
-    words.forEach(w => w.classList.remove('active'));
-    h1.classList.remove('dimmed');
-    hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
-    gradient.classList.remove('pulse');
-    setGradient('default');
-    moveGradient(e);
-
-    // Stop sparks whenever mouse leaves any word
-    if (sparksInterval) {
-      clearInterval(sparksInterval);
-      sparksInterval = null;
-    }
-    // Dust particles are auto-removed after animation
-  });
+hero.addEventListener('touchmove', function(e){
+  if (e.touches && e.touches[0]) moveGradient(e.touches[0]);
 });
 
 // On page load, center gradient (optional)
 window.addEventListener('DOMContentLoaded', function() {
-  gradient.style.left = `calc(50% - 325px)`;
-  gradient.style.top = `calc(50% - 325px)`;
+  // Responsive size
+  const size = gradient.offsetWidth;
+  gradient.style.left = `calc(50% - ${size/2}px)`;
+  gradient.style.top = `calc(50% - ${size/2}px)`;
   setGradient('default');
 });
 
@@ -93,8 +129,9 @@ window.addEventListener('DOMContentLoaded', function() {
 hero.addEventListener('mouseleave', function(){
   setGradient('default');
   hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
-  gradient.style.left = `calc(50% - 325px)`;
-  gradient.style.top = `calc(50% - 325px)`;
+  const size = gradient.offsetWidth;
+  gradient.style.left = `calc(50% - ${size/2}px)`;
+  gradient.style.top = `calc(50% - ${size/2}px)`;
   if (sparksInterval) {
     clearInterval(sparksInterval);
     sparksInterval = null;
@@ -103,8 +140,7 @@ hero.addEventListener('mouseleave', function(){
 
 // ---- Sparks / Logo Sparks ----
 function createSparks() {
-  const sparkCount = 4; // adjust for density
-
+  const sparkCount = 4;
   const gradientRect = gradient.getBoundingClientRect();
   const heroRect = hero.getBoundingClientRect();
 
@@ -141,14 +177,13 @@ function createSparks() {
     }
 
     spark.addEventListener('animationend', () => spark.remove());
-
     hero.appendChild(spark);
   }
 }
 
 // ---- Dust Effect ----
 function createDustParticles() {
-  const numParticles = 18; // Bokeh effect: more particles
+  const numParticles = 18;
   const heroWidth = hero.offsetWidth;
   const heroHeight = hero.offsetHeight;
   const nothingWord = hero.querySelector('.hover-word.nothing');
@@ -196,21 +231,5 @@ function createDustParticles() {
 
     dust.addEventListener('animationend', () => dust.remove());
     hero.appendChild(dust);
-    
-function promptWordsPeriodically() {
-  setInterval(() => {
-    words.forEach(word => {
-      word.classList.add('prompting');
-      setTimeout(() => word.classList.remove('prompting'), 1500); // match animation duration
-    });
-  }, 4000); // every 4 seconds
-}
-
-promptWordsPeriodically();
   }
 }
-words.forEach(word => {
-  word.addEventListener('mouseenter', () => word.classList.remove('prompting'));
-  word.addEventListener('touchstart', () => word.classList.remove('prompting'));
-  word.addEventListener('click', () => word.classList.remove('prompting'));
-});

@@ -36,14 +36,23 @@ body {
     height: 650px;
     border-radius: 100%;
     background-image: linear-gradient(#292929 10%, #ff6600);
-    filter: blur(250px);
+    filter: blur(120px); /* less blur for visibility */
     transition: all 450ms ease-out;
     position: absolute;
     pointer-events: none;
-    z-index: -1;
-    transition: all 450ms ease-out;
+    z-index: 0; /* changed from -1 */
 }
 
+@media (max-width: 650px) {
+  .gradient {
+    width: 350px;
+    height: 350px;
+    filter: blur(60px); /* less blur on mobile */
+  }
+  .main-content {
+    margin: 30px;
+  }
+}
 .text-container {
   width: 100%;
   max-width: 1200px;
@@ -118,6 +127,17 @@ h1.dimmed .hover-word.active {
 .story-hover .hover-word.story {
   color: #fff;
   text-shadow: 0 0 10px #fff, 0 0 30px #fff;
+}
+
+@keyframes subtle-nudge {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(-4px); }
+  20% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+.hover-word.prompting {
+  animation: subtle-nudge 1.5s ease-in-out;
 }
 
 @keyframes scale-pulse {
