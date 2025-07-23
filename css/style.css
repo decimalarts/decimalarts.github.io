@@ -120,29 +120,18 @@ h1.dimmed .hover-word.active {
   text-shadow: 0 0 10px #fff, 0 0 30px #fff;
 }
 
-@keyframes pulse-gradient {
-  0% {
-    background-image: radial-gradient(circle at center, #f5f5dc 0%, #e0e0e0 70%, transparent 100%);
-    filter: blur(250px);
-    opacity: 1;
+@keyframes scale-pulse {
+  0%, 100% {
+    opacity: 0.9;
     transform: scale(1);
   }
   50% {
-    background-image: radial-gradient(circle at center, #fffde4 0%, #ffe066 70%, transparent 100%);
-    filter: blur(200px);
-    opacity: 0.85;
-    transform: scale(1.2);
-  }
-  100% {
-    background-image: radial-gradient(circle at center, #f5f5dc 0%, #e0e0e0 70%, transparent 100%);
-    filter: blur(250px);
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1.07);
   }
 }
-
 .gradient.pulse {
-  animation: pulse-gradient 1.2s infinite;
+  animation: scale-pulse 4s ease-in-out infinite;
 }
 
 .text-container h1 {
