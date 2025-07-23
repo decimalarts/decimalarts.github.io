@@ -62,6 +62,7 @@ words.forEach(word => {
   word.addEventListener('click', function(e) {
     triggerWordEnter(word, e);
   });
+
   // Prevent prompt nudge if interacting
   word.addEventListener('mouseenter', () => word.classList.remove('prompting'));
   word.addEventListener('touchstart', () => word.classList.remove('prompting'));
@@ -71,13 +72,13 @@ words.forEach(word => {
 // Periodic nudge animation to prompt tap/hover
 function promptWordsPeriodically() {
   setInterval(() => {
-    words.forEach(word => {
+    document.querySelectorAll('.hover-word').forEach(word => {
       if (!word.classList.contains('active')) {
         word.classList.add('prompting');
-        setTimeout(() => word.classList.remove('prompting'), 1200);
+        setTimeout(() => word.classList.remove('prompting'), 1500);
       }
     });
-  }, 3500); // every 3.5 seconds
+  }, 4000); // every 4 seconds
 }
 promptWordsPeriodically();
 
@@ -118,7 +119,6 @@ hero.addEventListener('touchmove', function(e){
 
 // On page load, center gradient (optional)
 window.addEventListener('DOMContentLoaded', function() {
-  // Responsive size
   const size = gradient.offsetWidth;
   gradient.style.left = `calc(50% - ${size/2}px)`;
   gradient.style.top = `calc(50% - ${size/2}px)`;
@@ -220,10 +220,9 @@ function createDustParticles() {
     dust.style.setProperty('--dust-x', `${offsetX}px`);
     dust.style.setProperty('--dust-y', `${offsetY}px`);
 
-    // Randomize colour, size, blur
     const color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
-    const size = 10 + Math.random() * 18; // 10–28 px
-    const blur = 6 + Math.random() * 16; // 6–22 px
+    const size = 10 + Math.random() * 18;
+    const blur = 6 + Math.random() * 16;
     dust.style.width = `${size}px`;
     dust.style.height = `${size}px`;
     dust.style.background = `radial-gradient(circle, ${color} 0%, transparent 80%)`;
