@@ -76,9 +76,9 @@ function promptWordsSequentially() {
       setTimeout(() => {
         word.classList.add('prompting');
         setTimeout(() => word.classList.remove('prompting'), 1500);
-      }, i * 350);
+      }, i * 1000);
     });
-  }, wordsArr.length * 350 + 2500);
+  }, wordsArr.length * 1000 + 2500);
 }
 promptWordsSequentially();
 
@@ -92,7 +92,7 @@ function setGradient(color) {
       gradient.style.backgroundImage = 'linear-gradient(90deg, #888, #bbb)';
       break;
     case 'orange':
-      gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #ff6600)';
+      gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #ff6600 80%)';
       break;
     default:
       gradient.style.backgroundImage = 'linear-gradient(#ff9900, #793000ff 10%, #313031ff)';
@@ -232,3 +232,29 @@ function createDustParticles() {
     hero.appendChild(dust);
   }
 }
+// Helper to check if an event target is a hover-word
+function isHoverWord(target) {
+  return target.classList && target.classList.contains('hover-word');
+}
+
+// Listen for taps/clicks on the document
+document.addEventListener('touchend', function(e) {
+  // If the tap is not on a hover-word, reset
+  if (!isHoverWord(e.target)) {
+    words.forEach(w => w.classList.remove('active'));
+    h1.classList.remove('dimmed');
+    hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+    gradient.classList.remove('pulse');
+    setGradient('default');
+  }
+}, {passive: true});
+
+document.addEventListener('click', function(e) {
+  if (!isHoverWord(e.target)) {
+    words.forEach(w => w.classList.remove('active'));
+    h1.classList.remove('dimmed');
+    hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+    gradient.classList.remove('pulse');
+    setGradient('default');
+  }
+});

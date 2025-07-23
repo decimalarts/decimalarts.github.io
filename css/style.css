@@ -94,8 +94,8 @@ h1 {
     opacity: 0.95;
     transform: scale(1) translateX(0) translateY(0);
   }
-  80% {
-    opacity: 0.6;
+  90% {
+    opacity: 0;
     transform: scale(1.08) translateX(var(--dust-x)) translateY(var(--dust-y));
   }
   100% {
@@ -107,8 +107,8 @@ h1 {
 /* SPARK EFFECT */
 .spark {
   position: absolute;
-  width: 2px;
-  height: 18px;
+  width: 1px;
+  height: 6px;
   background: linear-gradient(180deg, #ff6600 10%, #ff6f00 80%, transparent 100%);
   border-radius: 2px;
   pointer-events: none;
@@ -136,7 +136,7 @@ h1 {
 
 .spark.logo-spark {
   width: auto;
-  height: 22px;
+  height: 8px;
   background: none;
   display: flex;
   align-items: center;
@@ -146,7 +146,7 @@ h1 {
 }
 .spark.logo-spark img,
 .spark.logo-spark svg {
-  height: 18px;
+  height: 8px;
   width: auto;
   display: block;
 }
