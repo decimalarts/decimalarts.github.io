@@ -755,3 +755,14 @@ a:hover, a:focus {
     font-size: 1.1rem;
   }
 }
+
+.site-footer {
+  width: 100%;
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  padding: 24px 0 12px 0;
+  background: transparent; /* or use a color if desired */
+  letter-spacing: 0.02em;
+}
+
