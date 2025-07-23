@@ -17,6 +17,15 @@ body {
   margin: 60px; /* or whatever spacing you want */
 }
 
+.hero {
+  min-height: 100vh;       /* Fill the viewport vertically */
+  display: flex;           /* Center content vertically/horizontally if desired */
+  flex-direction: column;
+  justify-content: center; /* Vertical center */
+  align-items: flex-start; /* Left align, or use center for centered */
+  padding-top: 80px;       /* Space for fixed navbar */
+}
+
 .text-container {
   width: 90%;
   max-width: 900px;
