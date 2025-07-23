@@ -32,19 +32,21 @@ hero.addEventListener('mousemove', function(e){
   moveGradient(e);
 });
 
-// Handle word hovers and text/gradient changes
 words.forEach(word => {
   word.addEventListener('mouseenter', function(e) {
     words.forEach(w => w.classList.remove('active'));
     word.classList.add('active');
     h1.classList.add('dimmed');
     hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+    gradient.classList.remove('pulse'); // always remove before setting
+
     if (word.classList.contains('nothing')) {
       setGradient('grey');
       hero.classList.add('nothing-hover');
     } else if (word.classList.contains('something')) {
-      setGradient('light-grey');
+      setGradient('light-grey'); // initial color
       hero.classList.add('something-hover');
+      gradient.classList.add('pulse');
     } else if (word.classList.contains('story')) {
       setGradient('orange');
       hero.classList.add('story-hover');
@@ -56,10 +58,19 @@ words.forEach(word => {
     words.forEach(w => w.classList.remove('active'));
     h1.classList.remove('dimmed');
     hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+    gradient.classList.remove('pulse');
     setGradient('default');
     moveGradient(e);
   });
 });
+
+  word.addEventListener('mouseleave', function(e) {
+    words.forEach(w => w.classList.remove('active'));
+    h1.classList.remove('dimmed');
+    hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+    setGradient('default');
+    moveGradient(e);
+  });
 
 // On page load, center gradient (optional)
 window.addEventListener('DOMContentLoaded', function() {
