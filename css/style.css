@@ -513,3 +513,56 @@ a:hover, a:focus {
     margin-bottom: 18px;
   }
 }
+
+.why-section {
+  width: 100%;
+  background: #111; /* Same as navbar/header */
+  padding: 30px 0 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.why-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 20px;
+  padding: 0;
+  color: #F15A24; /* Orange text */
+}
+
+.why-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #F15A24; /* Orange heading */
+}
+
+.why-section p {
+  font-size: 1.08rem;
+  margin-bottom: 16px;
+  color: #F15A24;
+}
+
+.why-bold {
+  font-weight: bold;
+  color: #F15A24;
+}
+
+@media (max-width: 650px) {
+  .why-section {
+    padding: 32px 0 24px 0;
+  }
+  .why-container {
+    margin: 0 24px;
+    max-width: 100vw;
+  }
+  .why-section h2 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+  .why-section p {
+    font-size: 1.2rem;
+    margin-bottom: 11px;
+  }
+}
