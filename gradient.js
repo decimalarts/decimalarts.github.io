@@ -92,7 +92,7 @@ function setGradient(color) {
       gradient.style.backgroundImage = 'linear-gradient(90deg, #888, #bbb)';
       break;
     case 'orange':
-      gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #ff6600 80%)';
+      gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #F15A24 80%)';
       break;
     default:
       gradient.style.backgroundImage = 'linear-gradient(#ff9900, #793000ff 10%, #313031ff)';
