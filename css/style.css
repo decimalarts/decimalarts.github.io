@@ -40,7 +40,7 @@ body {
   .main-content {
     margin-top: 18px;
     margin-bottom: 24px;
-    margin-left: 0px; /* MOBILE LEFT MARGIN */
+    margin-left: 18px; /* MOBILE LEFT MARGIN */
     margin-right:0px;
   }
 }
@@ -501,11 +501,11 @@ a:hover, a:focus {
     padding: 32px 0 24px 0;
   }
   .work-container {
-    margin: 0 14px;
+    margin: 0 24px;
     max-width: 100vw;
   }
   .work-section h2 {
-    font-size: 1.3rem;
+    font-size: 2rem;
     margin-bottom: 16px;
   }
   .work-list li {
@@ -541,7 +541,7 @@ a:hover, a:focus {
 .why-section p {
   font-size: 1.08rem;
   margin-bottom: 16px;
-  color: #F15A24;
+  color: #cbcbcb;
 }
 
 .why-bold {
@@ -564,5 +564,135 @@ a:hover, a:focus {
   .why-section p {
     font-size: 1.2rem;
     margin-bottom: 11px;
+  }
+}
+.manifesto-section {
+  width: 100%;
+  background: #f7f7f7; /* Off-white */
+  padding: 56px 0 48px 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.manifesto-logo {
+  width: 60px;
+  height: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spark-logo {
+  width: 48px;
+  height: 18px;
+  display: block;
+  /* Animation */
+  animation: spark-slide 2.2s linear infinite;
+}
+
+@keyframes spark-slide {
+  0% { opacity: 0.7; transform: translateY(0) scaleX(1); }
+  40% { opacity: 1; transform: translateY(-2px) scaleX(1.05);}
+  60% { opacity: 1; transform: translateY(2px) scaleX(0.98);}
+  100% { opacity: 0.7; transform: translateY(0) scaleX(1);}
+}
+
+.manifesto-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 20px;
+  padding: 0;
+}
+
+.manifesto-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+  color: #F15A24; /* Orange title */
+  letter-spacing: -0.01em;
+}
+
+.manifesto-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.manifesto-point {
+  opacity: 0;
+  transform: translateX(-40px);
+  animation: manifesto-slide-in 1.2s cubic-bezier(0.7, 0.2, 0.2, 1) forwards;
+  animation-delay: var(--manifesto-delay, 0s);
+  color: #222;
+  font-size: 1.15rem;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: baseline;
+}
+
+.manifesto-number {
+  font-weight: bold;
+  font-size: 1.15em;
+  display: inline-block;
+  margin-right: 9px;
+}
+
+.number-grey {
+  color: #bbb;
+  font-weight: bold;
+}
+
+.number-orange {
+  color: #F15A24;
+  font-weight: bold;
+}
+
+@keyframes manifesto-slide-in {
+  0% { opacity: 0; transform: translateX(-40px);}
+  60% { opacity: 1; transform: translateX(10px);}
+  100% { opacity: 1; transform: translateX(0);}
+}
+
+/* Stagger animation delays for each point */
+.manifesto-point:nth-child(1) { --manifesto-delay: 0.05s; }
+.manifesto-point:nth-child(2) { --manifesto-delay: 0.18s; }
+.manifesto-point:nth-child(3) { --manifesto-delay: 0.31s; }
+.manifesto-point:nth-child(4) { --manifesto-delay: 0.44s; }
+.manifesto-point:nth-child(5) { --manifesto-delay: 0.57s; }
+.manifesto-point:nth-child(6) { --manifesto-delay: 0.70s; }
+.manifesto-point:nth-child(7) { --manifesto-delay: 0.83s; }
+.manifesto-point:nth-child(8) { --manifesto-delay: 0.96s; }
+.manifesto-point:nth-child(9) { --manifesto-delay: 1.09s; }
+.manifesto-point:nth-child(10) { --manifesto-delay: 1.22s; }
+.manifesto-point:nth-child(11) { --manifesto-delay: 1.35s; }
+
+@media (max-width: 650px) {
+  .manifesto-section {
+    padding: 32px 0 24px 0;
+  }
+  .manifesto-container {
+    margin: 0 14px;
+    max-width: 100vw;
+  }
+  .manifesto-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+  .manifesto-point {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+  .manifesto-logo {
+    margin-bottom: 16px;
+    width: 38px;
+    height: 18px;
+  }
+  .spark-logo {
+    width: 34px;
+    height: 14px;
   }
 }
