@@ -582,14 +582,15 @@ a:hover, a:focus {
   height: 24px;
   margin-bottom: 24px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 }
 
 .spark-logo {
-  width: 48px;
-  height: 18px;
+  width: auto;
+  height: 24px;
   display: block;
+  text-align: left;
   /* Animation */
   animation: spark-slide 2.2s linear infinite;
 }
@@ -692,8 +693,10 @@ a:hover, a:focus {
     height: 18px;
   }
   .spark-logo {
-    width: 34px;
-    height: 14px;
+    width: auto;
+    height: 24px;
+    display: block;
+  margin-left: 0;
   }
 }
 .manifesto-point {
@@ -709,8 +712,47 @@ a:hover, a:focus {
   transition: opacity 0.7s, transform 0.7s;
 }
 
-.spark-logo {
-  width: auto;   
-  height: 24px;  
-  text-align:left;
+.looking-ahead-section {
+  background: #fff8f3; /* Off-white or light orange background */
+  padding: 40px 80px;
+  margin-top: 32px;
+}
+
+.looking-ahead-container {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0;
+}
+
+.looking-ahead-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+  color: #F15A24; /* Orange title */
+  letter-spacing: -0.01em;
+}
+
+.looking-ahead-section p {
+  color: #222;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+@media (max-width: 650px) {
+  .looking-ahead-section {
+    padding: 24px 16px;
+  }
+  .looking-ahead-container {
+    margin: 0 24px;
+    max-width: 100vw;
+  }
+  .looking-ahead-section h2 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+  .looking-ahead-section p {
+    font-size: 1.1rem;
+  }
 }
