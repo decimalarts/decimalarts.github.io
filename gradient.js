@@ -78,7 +78,7 @@ words.forEach(word => {
       clearInterval(sparksInterval);
       sparksInterval = null;
     }
-    // No dustInterval logic needed anymore!
+    // Dust particles are auto-removed after animation
   });
 });
 
@@ -114,7 +114,7 @@ function createSparks() {
   const gradientHeight = gradient.offsetHeight;
 
   for (let i = 0; i < sparkCount; i++) {
-    const useLogo = Math.random() < 0.1; 
+    const useLogo = Math.random() < 0.1;
     const spark = document.createElement('div');
     spark.className = useLogo ? 'spark logo-spark' : 'spark';
 
@@ -132,7 +132,7 @@ function createSparks() {
 
     if (useLogo) {
       const img = document.createElement('img');
-      img.src = 'images/DA_Pictorial.svg';      // <-- update path and filename as needed
+      img.src = 'images/DA_Pictorial.svg';
       img.alt = 'Logo Spark';
       img.style.height = '8px';
       img.style.width = 'auto';
@@ -148,7 +148,7 @@ function createSparks() {
 
 // ---- Dust Effect ----
 function createDustParticles() {
-  const numParticles = 18; // More for bokeh
+  const numParticles = 18; // Bokeh effect: more particles
   const heroWidth = hero.offsetWidth;
   const heroHeight = hero.offsetHeight;
   const nothingWord = hero.querySelector('.hover-word.nothing');
@@ -187,8 +187,8 @@ function createDustParticles() {
 
     // Randomize colour, size, blur
     const color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
-    const size = 8 + Math.random() * 18; // 8–26 px
-    const blur = 4 + Math.random() * 14; // 4–18 px
+    const size = 10 + Math.random() * 18; // 10–28 px
+    const blur = 6 + Math.random() * 16; // 6–22 px
     dust.style.width = `${size}px`;
     dust.style.height = `${size}px`;
     dust.style.background = `radial-gradient(circle, ${color} 0%, transparent 80%)`;

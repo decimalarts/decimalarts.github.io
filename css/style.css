@@ -139,8 +139,9 @@ h1.dimmed .hover-word.active {
   pointer-events: none;
   z-index: 2;
   animation: dust-move 1.4s cubic-bezier(0.6, 0.1, 0.2, 1) forwards;
-  /* Remove fixed width/height/background, set in JS */
+  /* width, height, background, filter set in JS for bokeh effect */
 }
+
 @keyframes dust-move {
   0% {
     opacity: 0.9;
@@ -152,7 +153,6 @@ h1.dimmed .hover-word.active {
   }
   100% {
     opacity: 0;
-    /* Stay at the word position, just fade and maybe scale a bit more */
     transform: scale(1.4) translateX(var(--dust-x)) translateY(var(--dust-y));
   }
 }
