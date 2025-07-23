@@ -434,15 +434,15 @@ a:hover, a:focus {
     padding: 32px 0 24px 0;
   }
   .about-container {
-    margin: 0 14px;
+    margin: 0 24px;
     max-width: 100vw;
   }
   .about-section h2 {
-    font-size: 1.3rem;
+    font-size: 2rem;
     margin-bottom: 12px;
   }
   .about-section p {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-bottom: 11px;
   }
 }
