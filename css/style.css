@@ -133,12 +133,34 @@ h1.dimmed .hover-word.active {
   animation: scale-pulse 4s ease-in-out infinite;
 }
 
+.dust {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  animation: dust-move 1.4s cubic-bezier(0.6, 0.1, 0.2, 1) forwards;
+  /* Remove fixed width/height/background, set in JS */
+}
+@keyframes dust-move {
+  0% {
+    opacity: 0.9;
+    transform: scale(1) translateX(0) translateY(0);
+  }
+  70% {
+    opacity: 0.6;
+    transform: scale(1.1) translateX(var(--dust-x, 0px)) translateY(var(--dust-y, 0px));
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4) translateX(var(--dust-x, 0px)) translateY(var(--dust-y, 0px));
+  }
+}
 
 .spark {
   position: absolute;
   width: 1px;
   height: 6px;
-  background: linear-gradient(180deg, #ffd580 10%, #ff9900 80%, transparent 100%);
+  background: linear-gradient(180deg, #ff6600 10%, #ff6f00 80%, transparent 100%);
   border-radius: 2px;
   pointer-events: none;
   opacity: 0.85;
@@ -160,6 +182,22 @@ h1.dimmed .hover-word.active {
     opacity: 0;
     transform: scale(1.3) translateY(-80px) translateX(var(--spark-x, 0px)) rotate(var(--spark-rot, 0deg));
   }
+}
+
+.spark.logo-spark {
+  width: auto;         /* let SVG control width */
+  height: 8px;         /* match SVG height */
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.spark.logo-spark svg {
+  height: 8px;
+  width: auto;
+  display: block;
 }
 
 .text-container h1 {
@@ -221,6 +259,7 @@ a:hover {
   background: #111;
   color: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  z-index:10;
 }
 
 .navbar-left {

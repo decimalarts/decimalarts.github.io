@@ -51,6 +51,7 @@ words.forEach(word => {
     if (word.classList.contains('nothing')) {
       setGradient('grey');
       hero.classList.add('nothing-hover');
+      createDustParticles(); // Only spawn once!
     } else if (word.classList.contains('something')) {
       setGradient('light-grey'); // initial color
       hero.classList.add('something-hover');
@@ -77,6 +78,7 @@ words.forEach(word => {
       clearInterval(sparksInterval);
       sparksInterval = null;
     }
+    // No dustInterval logic needed anymore!
   });
 });
 
@@ -99,48 +101,100 @@ hero.addEventListener('mouseleave', function(){
   }
 });
 
+// ---- Sparks / Logo Sparks ----
 function createSparks() {
-  const sparkCount = 4; // adjust as needed
+  const sparkCount = 4; // adjust for density
 
-  // Get gradient position relative to hero (parent)
   const gradientRect = gradient.getBoundingClientRect();
   const heroRect = hero.getBoundingClientRect();
 
-  // Calculate gradient area within hero coordinate system
   const gradientLeft = gradientRect.left - heroRect.left;
   const gradientTop = gradientRect.top - heroRect.top;
   const gradientWidth = gradient.offsetWidth;
   const gradientHeight = gradient.offsetHeight;
 
-  // Offset for navbar (80px)
-  const navbarOffset = 80;
-
   for (let i = 0; i < sparkCount; i++) {
+    const useLogo = Math.random() < 0.1; 
     const spark = document.createElement('div');
-    spark.className = 'spark';
-
-    // Position randomly within the gradient area, but Y is at least 80px from page top
-    let randY = gradientTop + Math.random() * gradientHeight;
-
-    // If hero is not at top of page, add page offset
-    const pageOffset = heroRect.top;
-    randY = Math.max(randY, navbarOffset - pageOffset);
+    spark.className = useLogo ? 'spark logo-spark' : 'spark';
 
     const randX = gradientLeft + Math.random() * gradientWidth;
+    const randY = gradientTop + Math.random() * gradientHeight;
 
     spark.style.left = `${randX}px`;
     spark.style.top = `${randY}px`;
 
-    // Random float direction (left/right drift)
     const dirX = Math.random() * 60 - 30;
     spark.style.setProperty('--spark-x', `${dirX}px`);
 
-    // Random rotation for variety
     const rot = Math.random() * 80 - 40;
     spark.style.setProperty('--spark-rot', `${rot}deg`);
+
+    if (useLogo) {
+      const img = document.createElement('img');
+      img.src = 'images/DA_Pictorial.svg';      // <-- update path and filename as needed
+      img.alt = 'Logo Spark';
+      img.style.height = '8px';
+      img.style.width = 'auto';
+      img.style.display = 'block';
+      spark.appendChild(img);
+    }
 
     spark.addEventListener('animationend', () => spark.remove());
 
     hero.appendChild(spark);
+  }
+}
+
+// ---- Dust Effect ----
+function createDustParticles() {
+  const numParticles = 18; // More for bokeh
+  const heroWidth = hero.offsetWidth;
+  const heroHeight = hero.offsetHeight;
+  const nothingWord = hero.querySelector('.hover-word.nothing');
+  if (!nothingWord) return;
+
+  const wordRect = nothingWord.getBoundingClientRect();
+  const heroRect = hero.getBoundingClientRect();
+  const wordX = wordRect.left + wordRect.width / 2 - heroRect.left;
+  const wordY = wordRect.top + wordRect.height / 2 - heroRect.top;
+
+  const pastelColors = [
+    'rgba(255, 255, 255, 0.25)',
+    'rgba(255, 220, 180, 0.32)',
+    'rgba(180, 220, 255, 0.21)',
+    'rgba(240, 200, 255, 0.29)',
+    'rgba(255, 255, 180, 0.18)',
+    'rgba(220, 255, 220, 0.13)',
+    'rgba(220, 255, 255, 0.15)'
+  ];
+
+  for (let i = 0; i < numParticles; i++) {
+    const fromLeft = i % 2 === 0;
+    const edgeX = fromLeft ? 0 : heroWidth;
+    const edgeY = Math.random() * heroHeight;
+    const dx = wordX - edgeX;
+    const dy = wordY - edgeY;
+    const offsetX = dx + (Math.random() - 0.5) * 40;
+    const offsetY = dy + (Math.random() - 0.5) * 12;
+
+    const dust = document.createElement('div');
+    dust.className = 'dust';
+    dust.style.left = `${edgeX}px`;
+    dust.style.top = `${edgeY}px`;
+    dust.style.setProperty('--dust-x', `${offsetX}px`);
+    dust.style.setProperty('--dust-y', `${offsetY}px`);
+
+    // Randomize colour, size, blur
+    const color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+    const size = 8 + Math.random() * 18; // 8–26 px
+    const blur = 4 + Math.random() * 14; // 4–18 px
+    dust.style.width = `${size}px`;
+    dust.style.height = `${size}px`;
+    dust.style.background = `radial-gradient(circle, ${color} 0%, transparent 80%)`;
+    dust.style.filter = `blur(${blur}px)`;
+
+    dust.addEventListener('animationend', () => dust.remove());
+    hero.appendChild(dust);
   }
 }
