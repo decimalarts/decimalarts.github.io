@@ -45,8 +45,8 @@ body {
 }
 
 .text-container {
-  width: 90%;
-  max-width: 900px;
+  width: 100%;
+  max-width: 1200px;
   margin-left: 40px;   /* Space from the left */
   margin-right: auto;  /* Left-align the container */
   padding: 0 0 0 0;    /* No extra padding unless you want it */
@@ -133,22 +133,11 @@ h1.dimmed .hover-word.active {
   animation: scale-pulse 4s ease-in-out infinite;
 }
 
+
 .spark {
   position: absolute;
-  width: 1px;                   /* thin line */
-  height: 6px;                 /* longer, spark-like */
-  background: linear-gradient(180deg, #ffd580 10%, #ff9900 80%, transparent 100%);
-  border-radius: 2px;
-  pointer-events: none;
-  opacity: 0.85;
-  animation: spark-float 1.2s linear forwards;
-  z-index: 3;
-  transform: rotate(var(--spark-rot, 0deg));
-}
-.spark {
-  position: absolute;
-  width: 2px;
-  height: 16px;
+  width: 1px;
+  height: 6px;
   background: linear-gradient(180deg, #ffd580 10%, #ff9900 80%, transparent 100%);
   border-radius: 2px;
   pointer-events: none;

@@ -99,24 +99,39 @@ hero.addEventListener('mouseleave', function(){
   }
 });
 
-// Create multiple, spaced-out sparks filling half the hero section
 function createSparks() {
-  const sparkCount = 4; // sparks per interval; adjust for density/speed
-  const heroWidth = hero.offsetWidth;
-  const heroHeight = hero.offsetHeight;
+  const sparkCount = 4; // adjust as needed
+
+  // Get gradient position relative to hero (parent)
+  const gradientRect = gradient.getBoundingClientRect();
+  const heroRect = hero.getBoundingClientRect();
+
+  // Calculate gradient area within hero coordinate system
+  const gradientLeft = gradientRect.left - heroRect.left;
+  const gradientTop = gradientRect.top - heroRect.top;
+  const gradientWidth = gradient.offsetWidth;
+  const gradientHeight = gradient.offsetHeight;
+
+  // Offset for navbar (80px)
+  const navbarOffset = 80;
 
   for (let i = 0; i < sparkCount; i++) {
     const spark = document.createElement('div');
     spark.className = 'spark';
 
-    // Spread randomly over left half and middle area of hero
-    const randX = Math.random() * (heroWidth * 0.5); // left half
-    const randY = heroHeight * 0.25 + Math.random() * (heroHeight * 0.5); // middle vertical 50%
+    // Position randomly within the gradient area, but Y is at least 80px from page top
+    let randY = gradientTop + Math.random() * gradientHeight;
+
+    // If hero is not at top of page, add page offset
+    const pageOffset = heroRect.top;
+    randY = Math.max(randY, navbarOffset - pageOffset);
+
+    const randX = gradientLeft + Math.random() * gradientWidth;
 
     spark.style.left = `${randX}px`;
     spark.style.top = `${randY}px`;
 
-    // Random drift direction (left/right)
+    // Random float direction (left/right drift)
     const dirX = Math.random() * 60 - 30;
     spark.style.setProperty('--spark-x', `${dirX}px`);
 
