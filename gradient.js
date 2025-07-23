@@ -50,8 +50,10 @@ words.forEach(word => {
     } else if (word.classList.contains('story')) {
       setGradient('orange');
       hero.classList.add('story-hover');
+      createSparks();
     }
     moveGradient(e);
+
   });
 
   word.addEventListener('mouseleave', function(e) {
@@ -86,3 +88,30 @@ hero.addEventListener('mouseleave', function(){
   gradient.style.left = `calc(50% - 325px)`;
   gradient.style.top = `calc(50% - 325px)`;
 });
+
+function createSparks() {
+  const sparkCount = Math.floor(4 + Math.random() * 5); // 4–8 sparse sparks
+  const gradientRect = gradient.getBoundingClientRect();
+  const heroRect = hero.getBoundingClientRect();
+
+  for (let i = 0; i < sparkCount; i++) {
+    const spark = document.createElement('div');
+    spark.className = 'spark';
+
+    // Position within gradient area (centered and random around center)
+    const randX = 300 + Math.random() * 70 - 35; // approx center ±
+    const randY = 300 + Math.random() * 80 - 40; // approx center ±
+
+    spark.style.left = `${randX}px`;
+    spark.style.top = `${randY}px`;
+
+    // Random float direction (slightly left or right)
+    const dirX = Math.random() * 30 - 15;
+    spark.style.setProperty('--spark-x', `${dirX}px`);
+
+    // Remove spark after animation
+    spark.addEventListener('animationend', () => spark.remove());
+
+    gradient.appendChild(spark);
+  }
+}
