@@ -25,7 +25,6 @@ body {
   align-items: flex-start; /* Left align, or use center for centered */
   padding-top: 80px;   
   position:relative;
-  min: height 100vh;
   overflow:hidden;    /* Space for fixed navbar */
 }
 
