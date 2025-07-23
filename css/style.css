@@ -36,15 +36,13 @@ body {
     width: 650px;
     height: 650px;
     border-radius: 100%;
-    background-image: linear-gradient(#1100ff 10%, #ff00f2);
+    background-image: linear-gradient(#292929 10%, #ff6600);
     filter: blur(250px);
     transition: all 450ms ease-out;
     position: absolute;
     pointer-events: none;
-    left: 0;
-    top: 0;
     transform: translate(calc(-50% + 15px), -50%);
-    z-index: 0;
+    z-index: -1;
     transition: all 450ms ease-out;
 }
 
@@ -66,12 +64,52 @@ body {
     max-width: none;
   }
   .main-content {
-  margin: 30px; /* or whatever spacing you want */
+    margin: 30px; /* or whatever spacing you want */
+  }
 }
+
+/* Default text color */
+h1 {
+  color: #e5e5e5;
+  transition: color 0.3s;
+}
+
+/* Active/hovered word styles */
+.hover-word {
+  cursor: pointer;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.hover-word.active {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 30px #fff;
+}
+
+h1.dimmed {
+  color: #222;
+}
+h1.dimmed .hover-word.active {
+  color: #fff;
+  text-shadow: 0 0 10px #fff;
+}
+
+/* Special cases */
+.nothing-hover h1 {
+  color: #000 !important;
+}
+.something-hover h1,
+.story-hover h1 {
+  color: #333;
+}
+.something-hover .hover-word.something,
+.story-hover .hover-word.story {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 30px #fff;
 }
 
 .text-container h1 {
-  margin-bottom: 24px;}
+  margin-bottom: 24px;
+}
 
 h1, .title-main {
   font-weight: 700;
@@ -159,8 +197,6 @@ a:hover {
   object-fit: contain;
   display: block;
 }
-
-
 
 .logo-text img {
   height: 14px !important; /* Fixed height for text logo */
