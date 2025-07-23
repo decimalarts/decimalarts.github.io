@@ -23,7 +23,8 @@ body {
   flex-direction: column;
   justify-content: center; /* Vertical center */
   align-items: flex-start; /* Left align, or use center for centered */
-  padding-top: 80px;       /* Space for fixed navbar */
+  padding-top: 80px;   
+  position:relative;    /* Space for fixed navbar */
 }
 
 .gradient {
@@ -51,6 +52,7 @@ body {
   margin-right: auto;  /* Left-align the container */
   padding: 0 0 0 0;    /* No extra padding unless you want it */
   box-sizing: border-box;
+  position: relative;
 }
 
 @media (max-width: 650px) {
