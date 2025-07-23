@@ -1,7 +1,10 @@
-var cursor = document.querySelector('.gradient');
+const hero = document.querySelector('.hero');
+const gradient = document.querySelector('.gradient');
 
-document.addEventListener('mousemove', function(e){
-  var x = e.clientX;
-  var y = e.clientY;
-  cursor.style.transform = `translate3d(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%), 0)`
+hero.addEventListener('mousemove', function(e){
+  const rect = hero.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  gradient.style.left = `${x - 325}px`; // center the gradient (650/2)
+  gradient.style.top = `${y - 325}px`;
 });
