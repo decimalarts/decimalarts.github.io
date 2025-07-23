@@ -713,9 +713,8 @@ a:hover, a:focus {
 }
 
 .looking-ahead-section {
-  background: #fff8f3; /* Off-white or light orange background */
+  background: #F15A24;
   padding: 40px 80px;
-  margin-top: 32px;
 }
 
 .looking-ahead-container {
@@ -729,7 +728,7 @@ a:hover, a:focus {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 28px;
-  color: #F15A24; /* Orange title */
+  color: #222;
   letter-spacing: -0.01em;
 }
 
