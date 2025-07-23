@@ -5,6 +5,11 @@
 }
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap');
 
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background: #000;
   color: #fff;
@@ -33,18 +38,21 @@ body {
 @media (max-width:650px) {
   .text-container,
   .main-content {
-    width: 90%;
+    width: 100%;
     max-width: 100vw;
-    padding: 0;
+    margin: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
   }
   .main-content {
     margin-top: 18px;
     margin-bottom: 24px;
-    margin-left: 18px; /* MOBILE LEFT MARGIN */
-    margin-right:0px;
+    /* Removed margin-left/right for mobile */
   }
 }
 
+/* Typography and links */
 h1 {
   color: #e5e5e5;
   transition: color 0.3s;
@@ -65,7 +73,6 @@ h1 {
 
 .hover-word.prompting {
   animation: subtle-nudge 1.5s ease-in-out;
-  /* NO SHADOW HERE */
 }
 
 @keyframes subtle-nudge {
@@ -159,7 +166,6 @@ h1.dimmed .hover-word.active {
   text-shadow: 0 0 10px #fff;
 }
 
-/* SPECIAL CASES */
 .nothing-hover h1 {
   color: #000 !important;
 }
@@ -376,8 +382,8 @@ a:hover, a:focus {
   justify-content: center;
   align-items: center;
   width: 550px;
-  height: 1100px;         /* 1:2 aspect ratio (width:height) */
-  border-radius: 24px;    /* Less rounded, still a bit soft */
+  height: 1100px;
+  border-radius: 24px;
   background-image: linear-gradient(#292929 10%, #ff6600);
   filter: blur(120px);
   transition: all 450ms ease-out;
@@ -388,7 +394,6 @@ a:hover, a:focus {
   transform: translateZ(0);
 }
 
-/* Responsive for mobile */
 @media (max-width: 650px) {
   .gradient {
     width: 400px;
@@ -401,7 +406,7 @@ a:hover, a:focus {
 
 .about-section {
   width: 100%;
-  background: #F15A24; /* bright orange */
+  background: #F15A24;
   padding: 30px 0 30px 0;
   display: flex;
   justify-content: center;
@@ -413,14 +418,14 @@ a:hover, a:focus {
   max-width: 900px;
   margin: 0 20px;
   padding: 0;
-  color: #222; /* dark text for better contrast */
+  color: #222;
 }
 
 .about-section h2 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 18px;
-  color: #222; /* dark title for readability */
+  color: #222;
 }
 
 .about-section p {
@@ -516,7 +521,7 @@ a:hover, a:focus {
 
 .why-section {
   width: 100%;
-  background: #111; /* Same as navbar/header */
+  background: #111;
   padding: 30px 0 30px 0;
   display: flex;
   justify-content: center;
@@ -528,14 +533,14 @@ a:hover, a:focus {
   max-width: 900px;
   margin: 0 20px;
   padding: 0;
-  color: #F15A24; /* Orange text */
+  color: #F15A24;
 }
 
 .why-section h2 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 18px;
-  color: #F15A24; /* Orange heading */
+  color: #F15A24;
 }
 
 .why-section p {
@@ -566,9 +571,10 @@ a:hover, a:focus {
     margin-bottom: 11px;
   }
 }
+
 .manifesto-section {
   width: 100%;
-  background: #f7f7f7; /* Off-white */
+  background: #f7f7f7;
   padding: 56px 0 48px 0;
   position: relative;
   overflow: hidden;
@@ -591,7 +597,6 @@ a:hover, a:focus {
   height: 24px;
   display: block;
   text-align: left;
-  /* Animation */
   animation: spark-slide 2.2s linear infinite;
 }
 
@@ -613,7 +618,7 @@ a:hover, a:focus {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 28px;
-  color: #F15A24; /* Orange title */
+  color: #F15A24;
   letter-spacing: -0.01em;
 }
 
@@ -658,7 +663,6 @@ a:hover, a:focus {
   100% { opacity: 1; transform: translateX(0);}
 }
 
-/* Stagger animation delays for each point */
 .manifesto-point:nth-child(1) { --manifesto-delay: 0.05s; }
 .manifesto-point:nth-child(2) { --manifesto-delay: 0.18s; }
 .manifesto-point:nth-child(3) { --manifesto-delay: 0.31s; }
@@ -696,14 +700,14 @@ a:hover, a:focus {
     width: auto;
     height: 24px;
     display: block;
-  margin-left: 0;
+    margin-left: 0;
   }
 }
+
 .manifesto-point {
   opacity: 0;
   transform: translateX(-40px);
   transition: opacity 0.7s, transform 0.7s;
-  /* animation-delay for stagger, if desired */
 }
 
 .manifesto-point.reveal {
@@ -712,6 +716,7 @@ a:hover, a:focus {
   transition: opacity 0.7s, transform 0.7s;
 }
 
+/* Looking Ahead Section */
 .looking-ahead-section {
   background: #F15A24;
   padding: 40px 80px;
@@ -756,13 +761,13 @@ a:hover, a:focus {
   }
 }
 
+/* Footer */
 .site-footer {
   width: 100%;
   text-align: center;
   color: #888;
   font-size: 1rem;
   padding: 24px 0 12px 0;
-  background: transparent; /* or use a color if desired */
+  background: transparent;
   letter-spacing: 0.02em;
 }
-
