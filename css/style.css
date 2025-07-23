@@ -360,6 +360,7 @@ a:hover, a:focus {
 
 /* HERO SECTION (keep gradient settings) */
 .hero {
+  background: #000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -383,6 +384,8 @@ a:hover, a:focus {
   position: absolute;
   pointer-events: none;
   z-index: 0;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 /* Responsive for mobile */
@@ -392,6 +395,7 @@ a:hover, a:focus {
     height: 800px;
     border-radius: 24px;
     filter: blur(60px);
+    will-change: transform, opacity;
   }
 }
 
