@@ -17,7 +17,7 @@ function setGradient(color) {
       gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #ff6600)';
       break;
     default:
-      gradient.style.backgroundImage = 'linear-gradient(#1100ff 10%, #ff00f2)';
+      gradient.style.backgroundImage = 'linear-gradient(#292929 10%, #8e8e8eff, #ff6600)';
   }
 }
 
