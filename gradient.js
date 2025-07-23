@@ -2,13 +2,13 @@ const hero = document.querySelector('.hero');
 const gradient = document.querySelector('.gradient');
 const h1 = hero.querySelector('h1');
 const words = hero.querySelectorAll('.hover-word');
-let isWordHovered = false;
 
-// Gradient color switcher
+let currentMode = 'default'; // tracks which word is hovered
+
 function setGradient(color) {
   switch(color) {
     case 'grey':
-      gradient.style.backgroundImage = 'linear-gradient(90deg, #292929 10%, #555)';
+      gradient.style.backgroundImage = 'linear-gradient(90deg, #1f1834ff 10%, #272a62ff)';
       break;
     case 'light-grey':
       gradient.style.backgroundImage = 'linear-gradient(90deg, #888, #bbb)';
@@ -17,12 +17,11 @@ function setGradient(color) {
       gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #ff6600)';
       break;
     default:
-      gradient.style.backgroundImage = 'linear-gradient(#292929 10%, #8e8e8eff, #ff6600)';
+      gradient.style.backgroundImage = 'linear-gradient( #ff9900, #ff6600 10%, #313031ff)';
   }
 }
 
-// Snap gradient to mouse position
-function snapGradient(e) {
+function moveGradient(e) {
   const rect = hero.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
@@ -30,25 +29,13 @@ function snapGradient(e) {
   gradient.style.top = `${y - 325}px`;
 }
 
-function restoreGradient() {
-  setGradient('default');
-  gradient.style.left = `calc(50% - 325px)`;
-  gradient.style.top = `calc(50% - 325px)`;
-}
+hero.addEventListener('mousemove', function(e){
+  moveGradient(e);
+});
 
-// Listen for mousemove ONLY when word is hovered
-function enableSnapOnMove() {
-  hero.addEventListener('mousemove', snapGradient);
-}
-function disableSnapOnMove() {
-  hero.removeEventListener('mousemove', snapGradient);
-}
-
-// Hover logic for each word
+// Word hover logic
 words.forEach(word => {
   word.addEventListener('mouseenter', function(e) {
-    isWordHovered = true;
-    // Remove active from all, add to hovered
     words.forEach(w => w.classList.remove('active'));
     word.classList.add('active');
     h1.classList.add('dimmed');
@@ -56,46 +43,39 @@ words.forEach(word => {
     if (word.classList.contains('nothing')) {
       setGradient('grey');
       h1.classList.add('nothing-hover');
-      h1.classList.remove('something-hover', 'story-hover');
+      currentMode = 'nothing';
     } else if (word.classList.contains('something')) {
       setGradient('light-grey');
       h1.classList.add('something-hover');
-      h1.classList.remove('nothing-hover', 'story-hover');
+      currentMode = 'something';
     } else if (word.classList.contains('story')) {
       setGradient('orange');
       h1.classList.add('story-hover');
-      h1.classList.remove('nothing-hover', 'something-hover');
+      currentMode = 'story';
     }
-    snapGradient(e); // Snap immediately
-    enableSnapOnMove();
+    moveGradient(e); // Snap immediately
   });
 
   word.addEventListener('mouseleave', function(e) {
-    isWordHovered = false;
     words.forEach(w => w.classList.remove('active'));
     h1.classList.remove('dimmed', 'nothing-hover', 'something-hover', 'story-hover');
     setGradient('default');
-    restoreGradient();
-    disableSnapOnMove();
+    currentMode = 'default';
+    moveGradient(e);
   });
 });
 
-// Default gradient follows mouse (dark grey) only when not hovering a word
-hero.addEventListener('mousemove', function(e){
-  if (!isWordHovered) {
-    setGradient('grey'); // dark grey for default
-    const rect = hero.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    gradient.style.left = `${x - 325}px`;
-    gradient.style.top = `${y - 325}px`;
-  }
+// On page load, center the gradient (optional)
+window.addEventListener('DOMContentLoaded', function() {
+  // Could center or leave as is; your mousemove will reposition it anyway
+  gradient.style.left = `calc(50% - 325px)`;
+  gradient.style.top = `calc(50% - 325px)`;
 });
 
-// Reset gradient when mouse leaves hero section
 hero.addEventListener('mouseleave', function(){
-  isWordHovered = false;
   setGradient('default');
-  restoreGradient();
-  disableSnapOnMove();
+  currentMode = 'default';
+  // Optional: center gradient when leaving hero section
+  gradient.style.left = `calc(50% - 325px)`;
+  gradient.style.top = `calc(50% - 325px)`;
 });
