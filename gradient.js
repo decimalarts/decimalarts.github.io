@@ -73,12 +73,10 @@ words.forEach(word => {
 function promptWordsPeriodically() {
   setInterval(() => {
     document.querySelectorAll('.hover-word').forEach(word => {
-      if (!word.classList.contains('active')) {
-        word.classList.add('prompting');
-        setTimeout(() => word.classList.remove('prompting'), 1500);
-      }
+      word.classList.add('prompting');
+      setTimeout(() => word.classList.remove('prompting'), 1500);
     });
-  }, 4000); // every 4 seconds
+  }, 4000);
 }
 promptWordsPeriodically();
 
@@ -232,3 +230,10 @@ function createDustParticles() {
     hero.appendChild(dust);
   }
 }
+window.addEventListener('DOMContentLoaded', function() {
+  words.forEach(w => w.classList.remove('active'));
+  const size = gradient.offsetWidth;
+  gradient.style.left = `calc(50% - ${size/2}px)`;
+  gradient.style.top = `calc(50% - ${size/2}px)`;
+  setGradient('default');
+});
