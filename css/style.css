@@ -142,18 +142,9 @@ h1.dimmed .hover-word.active {
   /* Remove fixed width/height/background, set in JS */
 }
 @keyframes dust-move {
-  0% {
-    opacity: 0.9;
-    transform: scale(1) translateX(0) translateY(0);
-  }
-  70% {
-    opacity: 0.6;
-    transform: scale(1.1) translateX(var(--dust-x, 0px)) translateY(var(--dust-y, 0px));
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.4) translateX(var(--dust-x, 0px)) translateY(var(--dust-y, 0px));
-  }
+  0%   { opacity: 0.9; transform: scale(1) translateX(0) translateY(0); }
+  75%  { opacity: 0.5; transform: scale(1.1) translateX(var(--dust-x)) translateY(var(--dust-y)); }
+  100% { opacity: 0;   transform: scale(1.2) translateX(var(--dust-x)) translateY(var(--dust-y)); }
 }
 
 .spark {
