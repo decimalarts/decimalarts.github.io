@@ -512,3 +512,17 @@ a:hover, a:focus {
     margin-bottom: 18px;
   }
 }
+
+.work-list li {
+  margin-bottom: 28px;
+  color: #e5e5e5;
+  font-size: 1.08rem;
+}
+
+.work-label {
+  display: block;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+  font-size: 1.08em;
+}
