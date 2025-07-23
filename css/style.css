@@ -171,8 +171,7 @@ h1.dimmed .hover-word.active {
 }
 .hero.nothing-hover .hover-word.nothing {
   color: #000 !important;
-  text-shadow: 0 0 15px #323d65 !important;
-  text-shadow: 0 0 1px #505f95 !important;
+  text-shadow: 0 0 20px #59699c !important;
   font-weight: bold;
 }
 .something-hover h1,
@@ -319,6 +318,7 @@ a:hover, a:focus {
 @media (max-width: 650px) {
   h1, .title-main {
     font-size: 3rem;
+    word-spacing: normal;
   }
   .navbar {
     height: 48px;
