@@ -5,6 +5,7 @@
 }
  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap');
 body {
+  padding-top: 80px;
   background: #000;
   color: #fff;
   font-family: 'Red Hat Display', Arial, sans-serif;
@@ -93,6 +94,7 @@ a:hover {
 
 
 .navbar {
+  position: fixed;
   width: 100%;
   height: 64px;
   min-height: 64px;
