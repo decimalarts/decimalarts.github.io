@@ -696,3 +696,15 @@ a:hover, a:focus {
     height: 14px;
   }
 }
+.manifesto-point {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s, transform 0.7s;
+  /* animation-delay for stagger, if desired */
+}
+
+.manifesto-point.reveal {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.7s, transform 0.7s;
+}
