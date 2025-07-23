@@ -97,9 +97,18 @@ h1.dimmed .hover-word.active {
   color: #000 !important;
 }
 
-.nothing-hover .hover-word.nothing {
+.hero.nothing-hover h1,
+.hero.nothing-hover p,
+.hero.nothing-hover .hover-word {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Special style for "nothing" */
+.hero.nothing-hover .hover-word.nothing {
   color: #000 !important;
   text-shadow: 0 0 10px #323d65 !important;
+  font-weight: bold;
 }
 .something-hover h1,
 .story-hover h1 {

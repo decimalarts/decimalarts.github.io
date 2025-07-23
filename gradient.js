@@ -3,8 +3,6 @@ const gradient = document.querySelector('.gradient');
 const h1 = hero.querySelector('h1');
 const words = hero.querySelectorAll('.hover-word');
 
-let currentMode = 'default'; // tracks which word is hovered
-
 function setGradient(color) {
   switch(color) {
     case 'grey':
@@ -17,7 +15,7 @@ function setGradient(color) {
       gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #ff6600)';
       break;
     default:
-      gradient.style.backgroundImage = 'linear-gradient( #ff9900, #ff6600 10%, #313031ff)';
+      gradient.style.backgroundImage = 'linear-gradient(#ff9900, #793000ff 10%, #313031ff)';
   }
 }
 
@@ -29,53 +27,51 @@ function moveGradient(e) {
   gradient.style.top = `${y - 325}px`;
 }
 
+// Always follow mouse within hero
 hero.addEventListener('mousemove', function(e){
   moveGradient(e);
 });
 
-// Word hover logic
+// Handle word hovers and text/gradient changes
 words.forEach(word => {
   word.addEventListener('mouseenter', function(e) {
     words.forEach(w => w.classList.remove('active'));
     word.classList.add('active');
     h1.classList.add('dimmed');
-    h1.classList.remove('nothing-hover', 'something-hover', 'story-hover');
+    hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
     if (word.classList.contains('nothing')) {
       setGradient('grey');
-      h1.classList.add('nothing-hover');
-      currentMode = 'nothing';
+      hero.classList.add('nothing-hover');
     } else if (word.classList.contains('something')) {
       setGradient('light-grey');
-      h1.classList.add('something-hover');
-      currentMode = 'something';
+      hero.classList.add('something-hover');
     } else if (word.classList.contains('story')) {
       setGradient('orange');
-      h1.classList.add('story-hover');
-      currentMode = 'story';
+      hero.classList.add('story-hover');
     }
-    moveGradient(e); // Snap immediately
+    moveGradient(e);
   });
 
   word.addEventListener('mouseleave', function(e) {
     words.forEach(w => w.classList.remove('active'));
-    h1.classList.remove('dimmed', 'nothing-hover', 'something-hover', 'story-hover');
+    h1.classList.remove('dimmed');
+    hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
     setGradient('default');
-    currentMode = 'default';
     moveGradient(e);
   });
 });
 
-// On page load, center the gradient (optional)
+// On page load, center gradient (optional)
 window.addEventListener('DOMContentLoaded', function() {
-  // Could center or leave as is; your mousemove will reposition it anyway
   gradient.style.left = `calc(50% - 325px)`;
   gradient.style.top = `calc(50% - 325px)`;
+  setGradient('default');
 });
 
+// When mouse leaves hero, center gradient and reset color
 hero.addEventListener('mouseleave', function(){
   setGradient('default');
-  currentMode = 'default';
-  // Optional: center gradient when leaving hero section
+  hero.classList.remove('nothing-hover', 'something-hover', 'story-hover');
   gradient.style.left = `calc(50% - 325px)`;
   gradient.style.top = `calc(50% - 325px)`;
 });
