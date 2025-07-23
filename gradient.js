@@ -48,37 +48,39 @@ function triggerWordLeave(event) {
   }
 }
 
-// Attach both mouse and touch/click listeners:
+// Attach listeners: hover for desktop, tap/click for mobile to select and hold state
 words.forEach(word => {
+  // Desktop
   word.addEventListener('mouseenter', e => triggerWordEnter(word, e));
   word.addEventListener('mouseleave', e => triggerWordLeave(e));
-  word.addEventListener('touchstart', function(e) {
-    e.preventDefault();
-    triggerWordEnter(word, e.touches[0] || e);
-  }, {passive: false});
+
+  // Mobile: Tap to select and hold state
   word.addEventListener('touchend', function(e) {
-    triggerWordLeave(e.touches[0] || e);
-  });
+    e.preventDefault();
+    triggerWordEnter(word, e.changedTouches[0] || e);
+  }, {passive: false});
   word.addEventListener('click', function(e) {
     triggerWordEnter(word, e);
   });
 
-  // Prevent prompt nudge if interacting
   word.addEventListener('mouseenter', () => word.classList.remove('prompting'));
-  word.addEventListener('touchstart', () => word.classList.remove('prompting'));
+  word.addEventListener('touchend', () => word.classList.remove('prompting'));
   word.addEventListener('click', () => word.classList.remove('prompting'));
 });
 
-// Periodic nudge animation to prompt tap/hover
-function promptWordsPeriodically() {
+// Sequential nudge animation for words
+function promptWordsSequentially() {
+  const wordsArr = Array.from(document.querySelectorAll('.hover-word'));
   setInterval(() => {
-    document.querySelectorAll('.hover-word').forEach(word => {
-      word.classList.add('prompting');
-      setTimeout(() => word.classList.remove('prompting'), 1500);
+    wordsArr.forEach((word, i) => {
+      setTimeout(() => {
+        word.classList.add('prompting');
+        setTimeout(() => word.classList.remove('prompting'), 1500);
+      }, i * 350);
     });
-  }, 4000);
+  }, wordsArr.length * 350 + 2500);
 }
-promptWordsPeriodically();
+promptWordsSequentially();
 
 // Gradient always visible and follows pointer/tap
 function setGradient(color) {
@@ -101,7 +103,6 @@ function moveGradient(e) {
   const rect = hero.getBoundingClientRect();
   const x = (e.clientX || e.pageX) - rect.left;
   const y = (e.clientY || e.pageY) - rect.top;
-  // gradient size is 650px (or 350px mobile), center it
   const size = gradient.offsetWidth;
   gradient.style.left = `${x - size/2}px`;
   gradient.style.top = `${y - size/2}px`;
@@ -115,8 +116,9 @@ hero.addEventListener('touchmove', function(e){
   if (e.touches && e.touches[0]) moveGradient(e.touches[0]);
 });
 
-// On page load, center gradient (optional)
+// On page load, center gradient and remove any active word
 window.addEventListener('DOMContentLoaded', function() {
+  words.forEach(w => w.classList.remove('active'));
   const size = gradient.offsetWidth;
   gradient.style.left = `calc(50% - ${size/2}px)`;
   gradient.style.top = `calc(50% - ${size/2}px)`;
@@ -168,7 +170,7 @@ function createSparks() {
       const img = document.createElement('img');
       img.src = 'images/DA_Pictorial.svg';
       img.alt = 'Logo Spark';
-      img.style.height = '8px';
+      img.style.height = '18px';
       img.style.width = 'auto';
       img.style.display = 'block';
       spark.appendChild(img);
@@ -230,10 +232,3 @@ function createDustParticles() {
     hero.appendChild(dust);
   }
 }
-window.addEventListener('DOMContentLoaded', function() {
-  words.forEach(w => w.classList.remove('active'));
-  const size = gradient.offsetWidth;
-  gradient.style.left = `calc(50% - ${size/2}px)`;
-  gradient.style.top = `calc(50% - ${size/2}px)`;
-  setGradient('default');
-});

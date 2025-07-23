@@ -14,7 +14,10 @@ body {
 }
 
 .main-content {
-  margin: 60px;
+  margin: 60px 0 0 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
 }
 
 .hero {
@@ -48,9 +51,6 @@ body {
     height: 350px;
     filter: blur(60px);
   }
-  .main-content {
-    margin: 30px;
-  }
 }
 
 .text-container {
@@ -64,13 +64,12 @@ body {
   z-index: 1;
 }
 @media (max-width: 650px) {
-  .text-container {
-    width: 95%;
-    margin-left: 6px;
-    max-width: none;
-  }
+  .text-container,
   .main-content {
-    margin: 30px;
+    width: 100%;
+    margin: 0;
+    max-width: 100vw;
+    padding: 0;
   }
 }
 
@@ -83,6 +82,9 @@ h1 {
 .hover-word {
   cursor: pointer;
   transition: color 0.3s, text-shadow 0.3s;
+  display: inline-block;
+  margin: 0 2px;
+  padding: 0 4px;
 }
 
 .hover-word.active {
@@ -90,17 +92,8 @@ h1 {
   text-shadow: 0 0 10px #fff, 0 0 30px #fff;
 }
 
-.hover-word {
-  cursor: pointer;
-  transition: color 0.3s, text-shadow 0.3s;
-  display: inline-block;
-  margin: 0 2px;
-  padding: 0 4px;
-}
-
 .hover-word.prompting {
   animation: subtle-nudge 1.5s ease-in-out;
-  /* Optional: add a slight shadow to reinforce movement */
   text-shadow: 0 2px 6px #ff660033;
 }
 
@@ -111,7 +104,7 @@ h1 {
   100% { transform: translateY(0); }
 }
 
-/* Dust (increase size, reduce blur for mobile) */
+/* Dust particles */
 .dust {
   position: absolute;
   border-radius: 50%;
@@ -119,122 +112,12 @@ h1 {
   z-index: 3;
   animation: dust-move 1.2s cubic-bezier(0.6, 0.1, 0.2, 1) forwards;
   will-change: transform, opacity;
-  /* For visibility on mobile, reduce blur and increase opacity */
 }
-
 @media (max-width: 650px) {
   .dust {
     filter: blur(4px) !important;
   }
 }
-
-/* Spark (increase height for visibility) */
-.spark {
-  position: absolute;
-  width: 2px;
-  height: 18px;
-  background: linear-gradient(180deg, #ff6600 10%, #ff6f00 80%, transparent 100%);
-  border-radius: 2px;
-  pointer-events: none;
-  opacity: 0.95;
-  animation: spark-float 1.2s linear forwards;
-  z-index: 4;
-  transform: rotate(var(--spark-rot, 0deg));
-  will-change: transform, opacity;
-}
-
-.spark.logo-spark {
-  width: auto;
-  height: 22px;
-  background: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  z-index: 5;
-}
-
-.spark.logo-spark img,
-.spark.logo-spark svg {
-  height: 18px;
-  width: auto;
-  display: block;
-}
-
-h1.dimmed {
-  color: #222;
-}
-h1.dimmed .hover-word.active {
-  color: #fff;
-  text-shadow: 0 0 10px #fff;
-}
-
-/* Special cases */
-.nothing-hover h1 {
-  color: #000 !important;
-}
-
-.hero.nothing-hover h1,
-.hero.nothing-hover p,
-.hero.nothing-hover .hover-word {
-  color: #000 !important;
-  text-shadow: none !important;
-}
-
-/* Special style for "nothing" */
-.hero.nothing-hover .hover-word.nothing {
-  color: #000 !important;
-  text-shadow: 0 0 15px #323d65 !important;
-  text-shadow: 0 0 1px #505f95 !important;
-  font-weight: bold;
-}
-.something-hover h1,
-.story-hover h1 {
-  color: #333;
-}
-.something-hover .hover-word.something,
-.story-hover .hover-word.story {
-  color: #fff;
-  text-shadow: 0 0 10px #fff, 0 0 30px #fff;
-}
-
-/* Subtle nudge animation for prompting */
-@keyframes subtle-nudge {
-  0% { transform: translateY(0); }
-  10% { transform: translateY(-4px); }
-  20% { transform: translateY(0); }
-  100% { transform: translateY(0); }
-}
-.hover-word.prompting {
-  animation: subtle-nudge 1.5s ease-in-out;
-}
-
-/* Gradient scale pulse */
-@keyframes scale-pulse {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.07);
-  }
-}
-.gradient.pulse {
-  animation: scale-pulse 4s ease-in-out infinite;
-}
-
-/* Dust particles (updated for proper fade and position) */
-.dust {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 2;
-  animation: dust-move 1.2s cubic-bezier(0.6, 0.1, 0.2, 1) forwards;
-  will-change: transform, opacity;
-}
-
-/* Fade out at the word, no crisscross */
 @keyframes dust-move {
   0% {
     opacity: 0.95;
@@ -250,15 +133,15 @@ h1.dimmed .hover-word.active {
   }
 }
 
-/* Spark effect for both desktop and mobile */
+/* Spark effect */
 .spark {
   position: absolute;
   width: 2px;
-  height: 14px;
+  height: 18px;
   background: linear-gradient(180deg, #ff6600 10%, #ff6f00 80%, transparent 100%);
   border-radius: 2px;
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.95;
   animation: spark-float 1.2s linear forwards;
   z-index: 4;
   transform: rotate(var(--spark-rot, 0deg));
@@ -283,7 +166,7 @@ h1.dimmed .hover-word.active {
 /* Logo sparks */
 .spark.logo-spark {
   width: auto;
-  height: 18px;
+  height: 22px;
   background: none;
   display: flex;
   align-items: center;
@@ -291,12 +174,60 @@ h1.dimmed .hover-word.active {
   padding: 0;
   z-index: 5;
 }
-
 .spark.logo-spark img,
 .spark.logo-spark svg {
   height: 18px;
   width: auto;
   display: block;
+}
+
+h1.dimmed {
+  color: #222;
+}
+h1.dimmed .hover-word.active {
+  color: #fff;
+  text-shadow: 0 0 10px #fff;
+}
+
+/* Special cases */
+.nothing-hover h1 {
+  color: #000 !important;
+}
+.hero.nothing-hover h1,
+.hero.nothing-hover p,
+.hero.nothing-hover .hover-word {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+.hero.nothing-hover .hover-word.nothing {
+  color: #000 !important;
+  text-shadow: 0 0 15px #323d65 !important;
+  text-shadow: 0 0 1px #505f95 !important;
+  font-weight: bold;
+}
+.something-hover h1,
+.story-hover h1 {
+  color: #333;
+}
+.something-hover .hover-word.something,
+.story-hover .hover-word.story {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 30px #fff;
+}
+
+/* Gradient scale pulse */
+@keyframes scale-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+.gradient.pulse {
+  animation: scale-pulse 4s ease-in-out infinite;
 }
 
 .text-container h1 {
@@ -333,7 +264,6 @@ a {
   text-decoration: none;
   transition: color 0.2s;
 }
-
 a:hover {
   color: #fff;
   text-decoration: underline;
@@ -343,7 +273,6 @@ a:hover {
   font-weight: 500;
   font-size: 1rem;
 }
-
 .navbar {
   position: fixed;
   width: 100%;
@@ -358,14 +287,12 @@ a:hover {
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
   z-index: 10;
 }
-
 .navbar-left {
   display: flex;
   align-items: center;
   height: 100%;
   gap: 20px;
 }
-
 .logo-pictorial {
   width: 48px;
   height: 48px;
@@ -379,7 +306,6 @@ a:hover {
   overflow: hidden;
   transform: translateX(10px);
 }
-
 .logo-pictorial img,
 .logo-pictorial svg {
   width: 80%;
@@ -387,19 +313,16 @@ a:hover {
   object-fit: contain;
   display: block;
 }
-
 .logo-text img {
   height: 14px !important;
   width: auto;
   display: block;
 }
-
 .logo-divider {
   width: 1px;
   background: #333;
   align-self: stretch;
 }
-
 .navbar-right {
   display: flex;
   align-items: center;
@@ -407,27 +330,22 @@ a:hover {
   justify-content: flex-end;
   margin-right: 16px;
 }
-
 .social-icon {
   height: 18px;
   display: block;
   filter: brightness(0) invert(1);
   transition: opacity 0.2s;
 }
-
 .social-icon:hover {
   opacity: 0.7;
 }
-
 a {
   color: #fff;
   text-decoration: none;
 }
-
 a:hover, a:focus {
   color: #ff0;
 }
-
 @media (max-width: 650px) {
   h1, .title-main {
     font-size: 1.8rem;
