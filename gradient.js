@@ -196,5 +196,21 @@ function createDustParticles() {
 
     dust.addEventListener('animationend', () => dust.remove());
     hero.appendChild(dust);
+    
+function promptWordsPeriodically() {
+  setInterval(() => {
+    words.forEach(word => {
+      word.classList.add('prompting');
+      setTimeout(() => word.classList.remove('prompting'), 1500); // match animation duration
+    });
+  }, 4000); // every 4 seconds
+}
+
+promptWordsPeriodically();
   }
 }
+words.forEach(word => {
+  word.addEventListener('mouseenter', () => word.classList.remove('prompting'));
+  word.addEventListener('touchstart', () => word.classList.remove('prompting'));
+  word.addEventListener('click', () => word.classList.remove('prompting'));
+});

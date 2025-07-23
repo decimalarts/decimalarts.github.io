@@ -106,7 +106,8 @@ h1.dimmed .hover-word.active {
 /* Special style for "nothing" */
 .hero.nothing-hover .hover-word.nothing {
   color: #000 !important;
-  text-shadow: 0 0 10px #323d65 !important;
+  text-shadow: 0 0 15px #323d65 !important;
+  text-shadow: 0 0 1px #505f95 !important;
   font-weight: bold;
 }
 .something-hover h1,
@@ -138,17 +139,17 @@ h1.dimmed .hover-word.active {
   border-radius: 50%;
   pointer-events: none;
   z-index: 2;
-  animation: dust-move 1.4s cubic-bezier(0.6, 0.1, 0.2, 1) forwards;
+  animation: dust-move 0.8s cubic-bezier(0.6, 0.1, 0.2, 1) forwards;
   /* width, height, background, filter set in JS for bokeh effect */
 }
 
 @keyframes dust-move {
   0% {
-    opacity: 0.9;
+    opacity: 1;
     transform: scale(1) translateX(0) translateY(0);
   }
   80% {
-    opacity: 0.6;
+    opacity: 0;
     transform: scale(1.1) translateX(var(--dust-x)) translateY(var(--dust-y));
   }
   100% {
