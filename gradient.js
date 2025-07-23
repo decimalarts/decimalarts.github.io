@@ -86,7 +86,7 @@ promptWordsSequentially();
 function setGradient(color) {
   switch(color) {
     case 'grey':
-      gradient.style.backgroundImage = 'linear-gradient(90deg, #1f1834a4, #272a625e)';
+      gradient.style.backgroundImage = 'linear-gradient(90deg, #171717ff,  #212121ff,  #252525ff,  #2d2d2dff)';
       break;
     case 'light-grey':
       gradient.style.backgroundImage = 'linear-gradient(90deg, #888, #bbb)';
