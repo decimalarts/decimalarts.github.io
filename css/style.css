@@ -719,7 +719,7 @@ a:hover, a:focus {
 /* Mood Widget Styles */
 .touchpoint-responsive-section {
   width: 100vw;
-  min-height: 260px;
+  height: 100vh;
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
@@ -729,6 +729,10 @@ a:hover, a:focus {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+  transition: background 0.7s cubic-bezier(.4,0,.2,1);
+  --grad1: #fef9d7;
+  --grad2: #f7e7a4;
+  background: linear-gradient(120deg, var(--grad1) 0%, var(--grad2) 100%);
   transition: background 0.7s cubic-bezier(.4,0,.2,1);
 }
 
