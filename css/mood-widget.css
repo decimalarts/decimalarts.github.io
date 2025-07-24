@@ -1,0 +1,229 @@
+/* Mood Widget Styles */
+
+.mood-widget-container {
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  z-index: 1000;
+  user-select: none;
+}
+
+@media (max-width: 650px) {
+  .mood-widget-container {
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
+/* Touchpoint Element */
+.mood-touchpoint {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.mood-touchpoint:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+}
+
+.mood-touchpoint.pressed {
+  transform: scale(0.95);
+  box-shadow: 0 2px 15px rgba(255, 107, 53, 0.5);
+}
+
+.touchpoint-label {
+  font-family: 'Red Hat Display', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  text-shadow: none;
+  pointer-events: none;
+}
+
+/* Ripple Effect */
+.mood-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Card Container */
+.mood-card-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+/* Mood Card */
+.mood-card {
+  position: absolute;
+  width: 300px;
+  max-width: 90vw;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.mood-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.mood-card-content {
+  padding: 24px;
+  position: relative;
+}
+
+.mood-name {
+  font-family: 'Red Hat Display', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.mood-description {
+  font-family: 'Red Hat Display', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.mood-quote {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.mood-quote p {
+  font-family: 'Red Hat Display', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 0 8px 0;
+  font-style: italic;
+}
+
+.mood-quote cite {
+  font-family: 'Red Hat Display', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  opacity: 0.7;
+}
+
+.mood-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  color: inherit;
+  transition: background 0.2s ease;
+}
+
+.mood-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Specific Adjustments */
+@media (max-width: 650px) {
+  .mood-touchpoint {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .touchpoint-label {
+    font-size: 16px;
+  }
+  
+  .mood-card {
+    width: 280px;
+    max-width: calc(100vw - 40px);
+  }
+  
+  .mood-card-content {
+    padding: 20px;
+  }
+  
+  .mood-name {
+    font-size: 22px;
+  }
+  
+  .mood-quote p {
+    font-size: 15px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .mood-touchpoint,
+  .mood-card,
+  .mood-ripple {
+    transition: none;
+    animation: none;
+  }
+  
+  .mood-touchpoint:hover {
+    transform: none;
+  }
+  
+  .mood-touchpoint.pressed {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .mood-touchpoint {
+    border: 2px solid;
+  }
+  
+  .mood-card {
+    border: 1px solid;
+  }
+}
