@@ -749,7 +749,7 @@ a:hover, a:focus {
     padding: 24px 16px;
   }
   .looking-ahead-container {
-    margin: 0 24px;
+    margin: 10px 0px;
     max-width: 100vw;
   }
   .looking-ahead-section h2 {
