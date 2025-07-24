@@ -1,6 +1,7 @@
 const moods = [
   {
     name: "Flicker",
+    description: "The spark of beginning, restless and full of possibility — a moment charged with potential.",
     stops: ["#fef9d7", "#f7e7a4"],
     textColor: "#222",
     bound: 0.33,
@@ -15,6 +16,7 @@ const moods = [
   },
   {
     name: "Stillness",
+    description: "A calm pause, a quiet center — a sanctuary within to find presence and peace.",
     stops: ["#0f172a", "#334155"],
     textColor: "#fff",
     bound: 0.8,
@@ -29,6 +31,7 @@ const moods = [
   },
   {
     name: "Trace",
+    description: "Echoes of memory and thought, the subtle imprint of what has been — shaping what comes next.",
     stops: ["#2e1065", "#7c3aed"],
     textColor: "#fff",
     bound: 1.3,
@@ -43,6 +46,7 @@ const moods = [
   },
   {
     name: "Ember",
+    description: "Warmth that glows beneath the surface — gentle intensity, longing, and resilience.",
     stops: ["#ffb347", "#ff6132"],
     textColor: "#222",
     bound: 2.0,
@@ -57,9 +61,10 @@ const moods = [
   },
   {
     name: "Echo",
+    description: "Resonance and reflection — moments that ripple outward, shaping us and the world.",
     stops: ["#e0e7ef", "#cfd9df"],
     textColor: "#222",
-    bound: Infinity,
+    bound: 3.2,
     quotes: [
       "We do not remember days, we remember moments. — Cesare Pavese",
       "The past beats inside me like a second heart. — John Banville",
@@ -71,7 +76,8 @@ const moods = [
   }
 ];
 
-// Linear interpolate between two hex colors (e.g. "#ff0000", "#00ff00")
+const FINAL_MOOD_BOUND = 6;
+
 function lerpColor(a, b, t) {
   const ah = a.replace('#', '');
   const bh = b.replace('#', '');
@@ -87,7 +93,6 @@ function lerpColor(a, b, t) {
   return `#${((1 << 24) + (rr << 16) + (rg << 8) + rb).toString(16).slice(1)}`;
 }
 
-// Find which two moods to blend between for a given duration
 function findMoodBlend(duration) {
   for (let i = 0; i < moods.length - 1; ++i) {
     if (duration < moods[i+1].bound) {
@@ -97,7 +102,12 @@ function findMoodBlend(duration) {
       return {from: moods[i], to: moods[i+1], t: Math.max(0, Math.min(1, t))};
     }
   }
-  return {from: moods[moods.length-2], to: moods[moods.length-1], t: 1};
+  const preFinal = moods[moods.length-2];
+  const final = moods[moods.length-1];
+  const lower = final.bound;
+  const upper = FINAL_MOOD_BOUND;
+  const t = Math.max(0, Math.min(1, (duration - lower) / (upper - lower)));
+  return {from: final, to: final, t: 1};
 }
 
 function getMoodByDuration(duration) {
@@ -131,7 +141,7 @@ function setupTouchpointWidget() {
       <h2 class="touchpoint-title">Touchpoint</h2>
       <p class="touchpoint-instruction">Press and hold to reveal your mood →</p>
       <div class="touchpoint-result">
-        <div class="touchpoint-result-label">Mood result</div>
+        <div class="touchpoint-mood-description"></div>
         <div class="touchpoint-mood-name"></div>
         <div class="touchpoint-mood-quote"></div>
       </div>
@@ -140,17 +150,17 @@ function setupTouchpointWidget() {
   const main = root.querySelector('.touchpoint-widget-main');
   const moodName = root.querySelector('.touchpoint-mood-name');
   const moodQuote = root.querySelector('.touchpoint-mood-quote');
+  const moodDescription = root.querySelector('.touchpoint-mood-description');
   const instruction = root.querySelector('.touchpoint-instruction');
-  const resultLabel = root.querySelector('.touchpoint-result-label');
   const section = document.querySelector('.touchpoint-responsive-section');
 
-  // Set initial gradient
-  section.style.setProperty('--grad1', moods[0].stops[0]);
-  section.style.setProperty('--grad2', moods[0].stops[1]);
+  // Set starting gradient to dark grey
+  section.style.setProperty('--grad1', "#23272b");
+  section.style.setProperty('--grad2', "#23272b");
   main.style.color = moods[0].textColor;
   moodName.textContent = "";
   moodQuote.textContent = "";
-  resultLabel.style.opacity = "0.6";
+  moodDescription.textContent = moods[0].description;
 
   let startTime = 0;
   let animFrame = null;
@@ -160,20 +170,33 @@ function setupTouchpointWidget() {
   function updateGradientLive() {
     if (!holding) return;
     let elapsed = (performance.now() - startTime) / 1000;
-    const blend = findMoodBlend(elapsed);
-    // Interpolate gradient stops
-    const grad1 = lerpColor(blend.from.stops[0], blend.to.stops[0], blend.t);
-    const grad2 = lerpColor(blend.from.stops[1], blend.to.stops[1], blend.t);
+    let blend = findMoodBlend(elapsed);
 
-    section.style.setProperty('--grad1', grad1);
-    section.style.setProperty('--grad2', grad2);
+    // For initial gradient, blend from dark grey to first mood for first 0.18s
+    if (elapsed < 0.18) {
+      const t = elapsed / 0.18;
+      section.style.setProperty('--grad1', lerpColor("#23272b", moods[0].stops[0], t));
+      section.style.setProperty('--grad2', lerpColor("#23272b", moods[0].stops[1], t));
+      main.style.color = moods[0].textColor;
+      lastTextColor = moods[0].textColor;
+      moodDescription.textContent = moods[0].description;
+    } else {
+      // Interpolate between mood gradients
+      const grad1 = lerpColor(blend.from.stops[0], blend.to.stops[0], blend.t);
+      const grad2 = lerpColor(blend.from.stops[1], blend.to.stops[1], blend.t);
 
-    // Interpolate text color if you want cross-fade (optional, here we just jump to the closest)
-    // For now, use from.textColor if t < 0.5, else to.textColor
-    const nextTextColor = blend.t < 0.5 ? blend.from.textColor : blend.to.textColor;
-    if (nextTextColor !== lastTextColor) {
-      main.style.color = nextTextColor;
-      lastTextColor = nextTextColor;
+      section.style.setProperty('--grad1', grad1);
+      section.style.setProperty('--grad2', grad2);
+
+      // Jump to closest text color
+      const nextTextColor = blend.t < 0.5 ? blend.from.textColor : blend.to.textColor;
+      if (nextTextColor !== lastTextColor) {
+        main.style.color = nextTextColor;
+        lastTextColor = nextTextColor;
+      }
+
+      // Description of closest mood
+      moodDescription.textContent = blend.t < 0.5 ? blend.from.description : blend.to.description;
     }
 
     animFrame = requestAnimationFrame(updateGradientLive);
@@ -184,7 +207,6 @@ function setupTouchpointWidget() {
     holding = true;
     moodName.textContent = "";
     moodQuote.textContent = "";
-    resultLabel.style.opacity = "0.3";
     startTime = performance.now();
 
     let x, y;
@@ -213,9 +235,8 @@ function setupTouchpointWidget() {
 
     moodName.textContent = mood.name;
     moodQuote.textContent = randomItem(mood.quotes);
-    instruction.textContent = "Press and hold to surface a feeling →";
-    resultLabel.style.opacity = "1";
-    lastTextColor = mood.textColor;
+    moodDescription.textContent = mood.description;
+    instruction.textContent = "Press and hold to reveal your mood →";
   }
 
   // Desktop
@@ -229,7 +250,6 @@ function setupTouchpointWidget() {
   section.addEventListener("touchcancel", endHold);
 }
 
-// Init on DOMContentLoaded
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", setupTouchpointWidget);
 } else {
