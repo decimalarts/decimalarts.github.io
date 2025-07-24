@@ -716,6 +716,84 @@ a:hover, a:focus {
   transition: opacity 0.7s, transform 0.7s;
 }
 
+/* Mood Widget Styles */
+.touchpoint-widget-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.touchpoint-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  animation: ripple-effect 0.6s linear;
+  opacity: 0.5;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.touchpoint-card {
+  position: absolute;
+  min-width: 260px;
+  max-width: 340px;
+  padding: 24px 20px 18px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1);
+  will-change: opacity, transform;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%) scale(0.96);
+}
+
+.touchpoint-card.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.touchpoint-card .mood-title {
+  font-size: 1.28rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+
+.touchpoint-card .mood-desc {
+  font-size: 1.04rem;
+  margin-bottom: 14px;
+  font-style: italic;
+  opacity: 0.83;
+}
+
+.touchpoint-card .mood-quote {
+  font-size: 1.01rem;
+  font-style: italic;
+  margin-bottom: 7px;
+  opacity: 0.95;
+}
+
+.touchpoint-card .mood-author {
+  font-size: 0.97rem;
+  text-align: right;
+  opacity: 0.7;
+}
+
 /* Looking Ahead Section */
 .looking-ahead-section {
   background: #F15A24;
@@ -760,6 +838,7 @@ a:hover, a:focus {
     font-size: 1.1rem;
   }
 }
+
 
 /* Footer */
 .site-footer {
