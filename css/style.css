@@ -717,29 +717,82 @@ a:hover, a:focus {
 }
 
 /* Mood Widget Styles */
-.touchpoint-widget-container {
-  position: relative;
+.touchpoint-widget-main {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-height: 300px;
+  justify-content: center;
+  min-height: 260px;
+  min-width: 320px;
   width: 100%;
-  cursor: pointer;
-  user-select: none;
+  padding: 28px 0 34px 0;
+  border-radius: 28px;
+  transition: background 0.7s cubic-bezier(.4,0,.2,1), color 0.7s cubic-bezier(.4,0,.2,1);
+  background: linear-gradient(120deg, #f8fafc 60%, #e0e7ef 100%);
+  box-shadow: 0 4px 18px 0 rgba(0,0,0,0.07);
+  position: relative;
+  overflow: hidden;
 }
 
-.touchpoint-ripple {
+.touchpoint-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: inherit;
+  letter-spacing: -0.01em;
+}
+.touchpoint-instruction {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 20px;
+  color: inherit;
+}
+.touchpoint-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 70px;
+  margin-top: 22px;
+}
+.touchpoint-result-label {
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  opacity: 0.86;
+  color: inherit;
+  letter-spacing: 0.01em;
+}
+.touchpoint-mood-name {
+  font-size: 1.33rem;
+  font-weight: 600;
+  margin-bottom: 7px;
+  color: inherit;
+  letter-spacing: 0.01em;
+}
+.touchpoint-mood-quote {
+  font-size: 1.09rem;
+  font-style: italic;
+  max-width: 340px;
+  text-align: center;
+  opacity: 0.97;
+  color: inherit;
+}
+
+/* Soft "ripple" for feedback (not for coloring) */
+.touchpoint-soft-ripple {
   position: absolute;
-  border-radius: 50%;
   pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.09) 60%, transparent 100%);
   transform: scale(0);
-  animation: ripple-effect 0.6s linear;
+  animation: soft-ripple-anim 0.6s cubic-bezier(.4,0,.2,1);
   opacity: 0.5;
+  z-index: 1;
 }
 
-@keyframes ripple-effect {
+@keyframes soft-ripple-anim {
   to {
-    transform: scale(4);
+    transform: scale(2.8);
     opacity: 0;
   }
 }
@@ -757,57 +810,6 @@ a:hover, a:focus {
   margin: 0;
   padding: 0;
 }
-
-.touchpoint-card {
-  position: absolute;
-  min-width: 260px;
-  max-width: 340px;
-  padding: 24px 20px 18px 20px;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.16);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10;
-  transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1);
-  will-change: opacity, transform;
-  top: 0;
-  left: 0;
-  transform: translate(-50%, -50%) scale(0.96);
-}
-
-.touchpoint-card.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.touchpoint-card .mood-title {
-  font-size: 1.28rem;
-  font-weight: bold;
-  margin-bottom: 8px;
-  letter-spacing: 0.01em;
-}
-
-.touchpoint-card .mood-desc {
-  font-size: 1.04rem;
-  margin-bottom: 14px;
-  font-style: italic;
-  opacity: 0.83;
-}
-
-.touchpoint-card .mood-quote {
-  font-size: 1.01rem;
-  font-style: italic;
-  margin-bottom: 7px;
-  opacity: 0.95;
-}
-
-.touchpoint-card .mood-author {
-  font-size: 0.97rem;
-  text-align: right;
-  opacity: 0.7;
-}
-
 /* Looking Ahead Section */
 .looking-ahead-section {
   background: #F15A24;
