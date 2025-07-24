@@ -141,8 +141,8 @@ function setupTouchpointWidget() {
       <h2 class="touchpoint-title">Touchpoint</h2>
       <p class="touchpoint-instruction">Press and hold to reveal your mood →</p>
       <div class="touchpoint-result">
-        <div class="touchpoint-mood-description"></div>
         <div class="touchpoint-mood-name"></div>
+        <div class="touchpoint-mood-description"></div>
         <div class="touchpoint-mood-quote"></div>
       </div>
     </div>
@@ -154,18 +154,18 @@ function setupTouchpointWidget() {
   const instruction = root.querySelector('.touchpoint-instruction');
   const section = document.querySelector('.touchpoint-responsive-section');
 
-  // Set starting gradient to dark grey
+  // Set starting gradient to dark grey, and text to white
   section.style.setProperty('--grad1', "#23272b");
   section.style.setProperty('--grad2', "#23272b");
-  main.style.color = moods[0].textColor;
+  main.style.color = "#fff";
   moodName.textContent = "";
   moodQuote.textContent = "";
-  moodDescription.textContent = moods[0].description;
+  moodDescription.textContent = "";
 
   let startTime = 0;
   let animFrame = null;
   let holding = false;
-  let lastTextColor = moods[0].textColor;
+  let lastTextColor = "#fff";
 
   function updateGradientLive() {
     if (!holding) return;
@@ -177,9 +177,8 @@ function setupTouchpointWidget() {
       const t = elapsed / 0.18;
       section.style.setProperty('--grad1', lerpColor("#23272b", moods[0].stops[0], t));
       section.style.setProperty('--grad2', lerpColor("#23272b", moods[0].stops[1], t));
-      main.style.color = moods[0].textColor;
-      lastTextColor = moods[0].textColor;
-      moodDescription.textContent = moods[0].description;
+      main.style.color = "#fff";
+      lastTextColor = "#fff";
     } else {
       // Interpolate between mood gradients
       const grad1 = lerpColor(blend.from.stops[0], blend.to.stops[0], blend.t);
@@ -194,9 +193,6 @@ function setupTouchpointWidget() {
         main.style.color = nextTextColor;
         lastTextColor = nextTextColor;
       }
-
-      // Description of closest mood
-      moodDescription.textContent = blend.t < 0.5 ? blend.from.description : blend.to.description;
     }
 
     animFrame = requestAnimationFrame(updateGradientLive);
@@ -207,6 +203,7 @@ function setupTouchpointWidget() {
     holding = true;
     moodName.textContent = "";
     moodQuote.textContent = "";
+    moodDescription.textContent = "";
     startTime = performance.now();
 
     let x, y;
@@ -234,9 +231,10 @@ function setupTouchpointWidget() {
     main.style.color = mood.textColor;
 
     moodName.textContent = mood.name;
-    moodQuote.textContent = randomItem(mood.quotes);
     moodDescription.textContent = mood.description;
-    instruction.textContent = "Press and hold to reveal your mood →";
+    moodQuote.textContent = randomItem(mood.quotes);
+    instruction.textContent = "Tap, hold, interact. →";
+    lastTextColor = mood.textColor;
   }
 
   // Desktop
