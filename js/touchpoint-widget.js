@@ -213,7 +213,7 @@ function setupTouchpointWidget() {
 
     moodName.textContent = mood.name;
     moodQuote.textContent = randomItem(mood.quotes);
-    instruction.textContent = "Press and hold to reveal your mood →";
+    instruction.textContent = "Press and hold to surface a feeling →";
     resultLabel.style.opacity = "1";
     lastTextColor = mood.textColor;
   }
