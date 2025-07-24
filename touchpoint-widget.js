@@ -1,4 +1,7 @@
-// Mood data
+function setupTouchpointWidget() {
+  console.log("setupTouchpointWidget called!");
+
+console.log("Touchpoint widget JS loaded!");// Mood data
 const moods = [
   {
     name: "Flicker",
@@ -188,4 +191,5 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", setupTouchpointWidget);
 } else {
   setupTouchpointWidget();
+}
 }
