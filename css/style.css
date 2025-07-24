@@ -744,6 +744,20 @@ a:hover, a:focus {
   }
 }
 
+.touchpoint-responsive-section {
+  width: 100vw;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #f8fafc 60%, #e0e7ef 100%);
+  box-sizing: border-box;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 .touchpoint-card {
   position: absolute;
   min-width: 260px;
