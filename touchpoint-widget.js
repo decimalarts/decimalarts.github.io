@@ -1,14 +1,5 @@
 // Mood data
-function setupTouchpointWidget() {
-  const root = document.getElementById("touchpoint-widget-root");
-  if (!root) return;
-  root.innerHTML = ""; // clear
-  const container = document.createElement("div");
-  container.className = "touchpoint-widget-container";
-  container.textContent = "Press and hold to reveal your mood →";
-  root.appendChild(container);
-}
-  const moods = [
+const moods = [
   {
     name: "Flicker",
     description:
