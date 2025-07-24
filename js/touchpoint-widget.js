@@ -1,4 +1,3 @@
-// Mood data, with gradients and text colors
 const moods = [
   {
     name: "Flicker",
@@ -110,10 +109,12 @@ function setupTouchpointWidget() {
   const moodQuote = root.querySelector('.touchpoint-mood-quote');
   const instruction = root.querySelector('.touchpoint-instruction');
   const resultLabel = root.querySelector('.touchpoint-result-label');
+  // The section to set the gradient on:
+  const section = document.querySelector('.touchpoint-responsive-section');
 
   // Set defaults
   let currentMood = moods[0];
-  main.style.background = currentMood.gradient;
+  section.style.background = currentMood.gradient;
   main.style.color = currentMood.textColor;
   moodName.textContent = "";
   moodQuote.textContent = "";
@@ -128,8 +129,8 @@ function setupTouchpointWidget() {
     let elapsed = (performance.now() - startTime) / 1000;
     let mood = getMoodByDuration(elapsed);
     if (currentMood !== mood) {
-      main.style.transition = 'background 0.6s cubic-bezier(.4,0,.2,1), color 0.6s cubic-bezier(.4,0,.2,1)';
-      main.style.background = mood.gradient;
+      section.style.transition = 'background 0.6s cubic-bezier(.4,0,.2,1)';
+      section.style.background = mood.gradient;
       main.style.color = mood.textColor;
       currentMood = mood;
     }
@@ -145,7 +146,7 @@ function setupTouchpointWidget() {
     resultLabel.style.opacity = "0.3";
     startTime = performance.now();
 
-    // Soft ripple for feedback
+    // Soft ripple for feedback (on section)
     let x, y;
     if (e.touches && e.touches.length) {
       x = e.touches[0].clientX;
@@ -154,7 +155,7 @@ function setupTouchpointWidget() {
       x = e.clientX;
       y = e.clientY;
     }
-    createSoftRipple(main, x, y);
+    createSoftRipple(section, x, y);
 
     animFrame = requestAnimationFrame(updateGradientLive);
   }
@@ -165,8 +166,8 @@ function setupTouchpointWidget() {
     let duration = (performance.now() - startTime) / 1000;
     let mood = getMoodByDuration(duration);
 
-    main.style.transition = 'background 0.7s cubic-bezier(.4,0,.2,1), color 0.7s cubic-bezier(.4,0,.2,1)';
-    main.style.background = mood.gradient;
+    section.style.transition = 'background 0.7s cubic-bezier(.4,0,.2,1)';
+    section.style.background = mood.gradient;
     main.style.color = mood.textColor;
 
     moodName.textContent = mood.name;
@@ -177,14 +178,14 @@ function setupTouchpointWidget() {
   }
 
   // Desktop
-  main.addEventListener("mousedown", startHold);
-  main.addEventListener("mouseup", endHold);
-  main.addEventListener("mouseleave", endHold);
+  section.addEventListener("mousedown", startHold);
+  section.addEventListener("mouseup", endHold);
+  section.addEventListener("mouseleave", endHold);
 
   // Mobile
-  main.addEventListener("touchstart", startHold, { passive: false });
-  main.addEventListener("touchend", endHold);
-  main.addEventListener("touchcancel", endHold);
+  section.addEventListener("touchstart", startHold, { passive: false });
+  section.addEventListener("touchend", endHold);
+  section.addEventListener("touchcancel", endHold);
 }
 
 // Init on DOMContentLoaded

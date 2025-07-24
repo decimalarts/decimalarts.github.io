@@ -717,21 +717,39 @@ a:hover, a:focus {
 }
 
 /* Mood Widget Styles */
+.touchpoint-responsive-section {
+  width: 100vw;
+  min-height: 260px;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  background: linear-gradient(120deg, #f8fafc 60%, #e0e7ef 100%);
+  box-sizing: border-box;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  transition: background 0.7s cubic-bezier(.4,0,.2,1);
+}
+
+#touchpoint-widget-root {
+  width: 100%;
+}
+
 .touchpoint-widget-main {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 260px;
-  min-width: 320px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 180px;
   width: 100%;
-  padding: 28px 0 34px 0;
-  border-radius: 28px;
-  transition: background 0.7s cubic-bezier(.4,0,.2,1), color 0.7s cubic-bezier(.4,0,.2,1);
-  background: linear-gradient(120deg, #f8fafc 60%, #e0e7ef 100%);
-  box-shadow: 0 4px 18px 0 rgba(0,0,0,0.07);
+  padding: 0;
+  margin: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .touchpoint-title {
@@ -740,19 +758,21 @@ a:hover, a:focus {
   margin-bottom: 12px;
   color: inherit;
   letter-spacing: -0.01em;
+  text-align: left;
 }
 .touchpoint-instruction {
   font-size: 1.1rem;
   opacity: 0.85;
   margin-bottom: 20px;
   color: inherit;
+  text-align: left;
 }
 .touchpoint-result {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   min-height: 70px;
-  margin-top: 22px;
+  margin-top: 20px;
 }
 .touchpoint-result-label {
   font-size: 1.08rem;
@@ -761,6 +781,7 @@ a:hover, a:focus {
   opacity: 0.86;
   color: inherit;
   letter-spacing: 0.01em;
+  text-align: left;
 }
 .touchpoint-mood-name {
   font-size: 1.33rem;
@@ -768,14 +789,16 @@ a:hover, a:focus {
   margin-bottom: 7px;
   color: inherit;
   letter-spacing: 0.01em;
+  text-align: left;
 }
 .touchpoint-mood-quote {
   font-size: 1.09rem;
   font-style: italic;
-  max-width: 340px;
-  text-align: center;
+  max-width: 520px;
+  text-align: left;
   opacity: 0.97;
   color: inherit;
+  margin-bottom: 0;
 }
 
 /* Soft "ripple" for feedback (not for coloring) */
@@ -783,7 +806,7 @@ a:hover, a:focus {
   position: absolute;
   pointer-events: none;
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.09) 60%, transparent 100%);
+  background: radial-gradient(circle at center, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.09) 60%, transparent 100%);
   transform: scale(0);
   animation: soft-ripple-anim 0.6s cubic-bezier(.4,0,.2,1);
   opacity: 0.5;
@@ -797,19 +820,6 @@ a:hover, a:focus {
   }
 }
 
-.touchpoint-responsive-section {
-  width: 100vw;
-  min-height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(120deg, #f8fafc 60%, #e0e7ef 100%);
-  box-sizing: border-box;
-  position: relative;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-}
 /* Looking Ahead Section */
 .looking-ahead-section {
   background: #F15A24;
