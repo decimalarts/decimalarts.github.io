@@ -11,14 +11,17 @@
 <body>
   <nav class="navbar">
     <div class="navbar-left">
+      <a href="index.html">
       <span class="logo-pictorial">
         <img src="images/DA_Pictorial.svg" alt="Pictorial Logo" height="28">
       </span>
+      </a>
       <span class="logo-divider"></span>
+      <a href="index.html">
       <span class="logo-text">
         <img src="images/DA_Text_Logo.svg" alt="Text Logo" height="14">
       </span>
-      
+      </a>
     </div>
     <div class="navbar-right">
       <a href="https://discord.com/" target="_blank" rel="noopener">
@@ -47,11 +50,14 @@
         <p><b>Decimal Arts</b> is an independent game studio based in Melbourne, Australia.
 We create narrative-driven games rooted in place, history, and human experience.
 We believe that games, like all art forms, shape culture. We build carefully, ask questions deliberately, and design experiences that people can connect with.</p>
-      </main>
+      <button class="scroll-btn" onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' });">
+  Learn More
+</button>
+</main>
     </div>
    <script src="gradient.js"></script>
   </section>
-  <section class="about-section">
+  <section class="about-section" id="about">
   <div class="about-container">
     <h2>About Decimal Arts</h2>
     <p><b>We make narrative games with depth, intention, and craft.</b></p>
