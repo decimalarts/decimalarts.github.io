@@ -10,6 +10,42 @@ html, body {
   overflow-x: hidden;
 }
 
+.team-btn {
+  position: relative;
+  background: none;
+  border: 2px solid #111;
+  padding: 10px 24px;
+  font-size: 1.2rem;
+  color: #111;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 18px;
+  overflow: hidden;
+  z-index: 1;
+  font-family: 'Red Hat Display', sans-serif;
+}
+
+.team-btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #111;
+  z-index: -1;
+  transition: width 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+.team-btn:hover::before {
+  width: 100%;
+}
+
+.team-btn:hover {
+  color: #F15A24;
+  outline: none;
+}
+
 body {
   background: #000;
   color: #fff;

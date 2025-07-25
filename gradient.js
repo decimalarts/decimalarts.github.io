@@ -86,16 +86,16 @@ promptWordsSequentially();
 function setGradient(color) {
   switch(color) {
     case 'grey':
-      gradient.style.backgroundImage = 'linear-gradient(90deg, #1e1e1eff 10%, #292929ff)';
+      gradient.style.backgroundImage = 'linear-gradient(90deg, #000000ff 10%, #1a1919ff, #1e1d1dff, #232020ff)';
       break;
     case 'light-grey':
       gradient.style.backgroundImage = 'linear-gradient(90deg, #888, #bbb)';
       break;
     case 'orange':
-      gradient.style.backgroundImage = 'linear-gradient(90deg, #ff9900, #ff6600)';
+      gradient.style.backgroundImage = 'linear-gradient(90deg, #ff6600ff, #ff8000ff)';
       break;
     default:
-      gradient.style.backgroundImage = 'linear-gradient(#ff9900, #793000ff 10%, #313031ff)';
+      gradient.style.backgroundImage = 'linear-gradient(#ff9900, #79300048 10%, #2d2d2dff)';
   }
 }
 
