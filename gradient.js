@@ -80,4 +80,3 @@ function promptWordsSequentially() {
     });
   }, wordsArr.length * 1000 + 2500);
   }
-  return moods[moods.length-1];
