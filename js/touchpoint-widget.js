@@ -77,6 +77,7 @@ const moods = [
 ];
 
 const FINAL_MOOD_BOUND = 6;
+const ROTATE_NUM = 12; // Number of rectangles in circle
 
 function lerpColor(a, b, t) {
   const ah = a.replace('#', '');
@@ -102,11 +103,7 @@ function findMoodBlend(duration) {
       return {from: moods[i], to: moods[i+1], t: Math.max(0, Math.min(1, t))};
     }
   }
-  const preFinal = moods[moods.length-2];
   const final = moods[moods.length-1];
-  const lower = final.bound;
-  const upper = FINAL_MOOD_BOUND;
-  const t = Math.max(0, Math.min(1, (duration - lower) / (upper - lower)));
   return {from: final, to: final, t: 1};
 }
 
@@ -121,25 +118,19 @@ function randomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function createSoftRipple(container, x, y) {
-  const ripple = document.createElement("span");
-  ripple.className = "touchpoint-soft-ripple";
-  const rect = container.getBoundingClientRect();
-  const size = Math.max(rect.width, rect.height) * 0.65;
-  ripple.style.width = ripple.style.height = size + "px";
-  ripple.style.left = (x - rect.left - size / 2) + "px";
-  ripple.style.top = (y - rect.top - size / 2) + "px";
-  container.appendChild(ripple);
-  ripple.addEventListener("animationend", () => ripple.remove());
-}
-
 function setupTouchpointWidget() {
   const root = document.getElementById("touchpoint-widget-root");
   if (!root) return;
   root.innerHTML = `
     <div class="touchpoint-widget-main">
-      <h2 class="touchpoint-title">Touchpoint</h2>
-      <p class="touchpoint-instruction">Press and hold to reveal your mood →</p>
+      <div class="touchpoint-header">
+        <h2 class="touchpoint-title">Touchpoint</h2>
+        <div class="touchpoint-instruction">Press and hold to reveal your mood →</div>
+      </div>
+      <div class="touchpoint-animation-space">
+        <div class="touchpoint-center-dot"></div>
+        <div class="touchpoint-rects-container"></div>
+      </div>
       <div class="touchpoint-result">
         <div class="touchpoint-mood-name"></div>
         <div class="touchpoint-mood-description"></div>
@@ -148,13 +139,81 @@ function setupTouchpointWidget() {
     </div>
   `;
   const main = root.querySelector('.touchpoint-widget-main');
+  const header = root.querySelector('.touchpoint-header');
   const moodName = root.querySelector('.touchpoint-mood-name');
   const moodQuote = root.querySelector('.touchpoint-mood-quote');
   const moodDescription = root.querySelector('.touchpoint-mood-description');
   const instruction = root.querySelector('.touchpoint-instruction');
   const section = document.querySelector('.touchpoint-responsive-section');
+  const centerDot = root.querySelector('.touchpoint-center-dot');
+  const rectsContainer = root.querySelector('.touchpoint-rects-container');
+  const animationSpace = root.querySelector('.touchpoint-animation-space');
 
-  // Set starting gradient to dark grey, and text to white
+  // Layout
+  header.style.position = "absolute";
+  header.style.top = "32px";
+  header.style.left = "32px";
+  header.style.zIndex = "2";
+  header.style.textAlign = "left";
+  header.style.maxWidth = "340px";
+  header.style.pointerEvents = "none";
+
+  animationSpace.style.width = "100%";
+animationSpace.style.maxWidth = "400px";
+animationSpace.style.height = "160px";
+animationSpace.style.margin = "56px 0 0 32px";
+animationSpace.style.pointerEvents = "auto";
+animationSpace.style.display = "flex";
+animationSpace.style.justifyContent = "center";
+animationSpace.style.alignItems = "center";
+animationSpace.style.boxSizing = "border-box";
+animationSpace.style.overflow = "visible";
+  centerDot.style.position = "absolute";
+  centerDot.style.left = "50%";
+  centerDot.style.top = "50%";
+  centerDot.style.transform = "translate(-50%, -50%)";
+  centerDot.style.width = "44px";
+  centerDot.style.height = "44px";
+  centerDot.style.borderRadius = "50%";
+  centerDot.style.background = "#fff";
+  centerDot.style.boxShadow = "0 0 32px 1px #fff7";
+  centerDot.style.zIndex = "2";
+  centerDot.style.border = "none";
+  centerDot.style.transition = "background 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s cubic-bezier(.4,0,.2,1)";
+
+  rectsContainer.style.position = "absolute";
+  rectsContainer.style.left = "50%";
+  rectsContainer.style.top = "50%";
+  rectsContainer.style.transform = "translate(-50%, -50%)";
+  rectsContainer.style.width = "120px";
+  rectsContainer.style.height = "120px";
+  rectsContainer.style.zIndex = "1";
+
+  // Result layout
+  const result = root.querySelector('.touchpoint-result');
+  result.style.marginTop = "4px";
+  result.style.display = "flex";
+  result.style.flexDirection = "column";
+  result.style.alignItems = "flex-start";
+  result.style.justifyContent = "flex-start";
+  result.style.maxWidth = "500px";
+  result.style.marginLeft = "32px";
+  moodName.style.fontWeight = "700";
+  moodName.style.fontSize = "2.0rem";
+  moodName.style.marginBottom = "0.6em";
+  moodName.style.textAlign = "left";
+  moodDescription.style.fontWeight = "400";
+  moodDescription.style.fontSize = "1.18rem";
+  moodDescription.style.maxWidth = "400px";
+  moodDescription.style.textAlign = "left";
+  moodDescription.style.marginBottom = "1.8em";
+  moodQuote.style.fontWeight = "500";
+  moodQuote.style.fontSize = "1.03rem";
+  moodQuote.style.maxWidth = "500px";
+  moodQuote.style.textAlign = "left";
+  moodQuote.style.marginTop = "2.8em";
+
+  // Initial gradient and text
   section.style.setProperty('--grad1', "#23272b");
   section.style.setProperty('--grad2', "#23272b");
   main.style.color = "#fff";
@@ -166,36 +225,69 @@ function setupTouchpointWidget() {
   let animFrame = null;
   let holding = false;
   let lastTextColor = "#fff";
+  let rotation = 0;
+  let lastRectColor = "#fff";
+  let rectsActive = false;
 
   function updateGradientLive() {
-    if (!holding) return;
-    let elapsed = (performance.now() - startTime) / 1000;
+    let elapsed = holding ? (performance.now() - startTime) / 1000 : 0;
     let blend = findMoodBlend(elapsed);
 
-    // For initial gradient, blend from dark grey to first mood for first 0.18s
+    // Interpolate gradient and dot color
+    let grad1, grad2, nextTextColor;
     if (elapsed < 0.18) {
       const t = elapsed / 0.18;
-      section.style.setProperty('--grad1', lerpColor("#23272b", moods[0].stops[0], t));
-      section.style.setProperty('--grad2', lerpColor("#23272b", moods[0].stops[1], t));
-      main.style.color = "#fff";
-      lastTextColor = "#fff";
+      grad1 = lerpColor("#23272b", moods[0].stops[0], t);
+      grad2 = lerpColor("#23272b", moods[0].stops[1], t);
+      nextTextColor = "#fff";
+      centerDot.style.background = grad1;
     } else {
-      // Interpolate between mood gradients
-      const grad1 = lerpColor(blend.from.stops[0], blend.to.stops[0], blend.t);
-      const grad2 = lerpColor(blend.from.stops[1], blend.to.stops[1], blend.t);
+      grad1 = lerpColor(blend.from.stops[0], blend.to.stops[0], blend.t);
+      grad2 = lerpColor(blend.from.stops[1], blend.to.stops[1], blend.t);
+      nextTextColor = blend.t < 0.5 ? blend.from.textColor : blend.to.textColor;
+      centerDot.style.background = grad1;
+    }
+    section.style.setProperty('--grad1', grad1);
+    section.style.setProperty('--grad2', grad2);
 
-      section.style.setProperty('--grad1', grad1);
-      section.style.setProperty('--grad2', grad2);
-
-      // Jump to closest text color
-      const nextTextColor = blend.t < 0.5 ? blend.from.textColor : blend.to.textColor;
-      if (nextTextColor !== lastTextColor) {
-        main.style.color = nextTextColor;
-        lastTextColor = nextTextColor;
-      }
+    if (nextTextColor !== lastTextColor) {
+      main.style.color = nextTextColor;
+      lastTextColor = nextTextColor;
     }
 
-    animFrame = requestAnimationFrame(updateGradientLive);
+    // Looping rotation for the rectangles (when holding)
+    if (holding) {
+      rotation += 2.5; // degrees per frame, adjust as needed
+      drawRects(rotation, grad1);
+      animFrame = requestAnimationFrame(updateGradientLive);
+    } else if (rectsActive) {
+      // Remove rectangles when not holding
+      rectsContainer.innerHTML = "";
+      rectsActive = false;
+    }
+  }
+
+  function drawRects(angleOffset = 0, color = "#fff") {
+    rectsActive = true;
+    rectsContainer.innerHTML = ""; // Clear previous
+    for (let i = 0; i < ROTATE_NUM; i++) {
+      const angle = ((i / ROTATE_NUM) * 2 * Math.PI) + (angleOffset * Math.PI / 180);
+      const spread = 46;
+      const x = 60 + Math.cos(angle) * spread; // center of container is (60,60)
+      const y = 60 + Math.sin(angle) * spread;
+      const rect = document.createElement('span');
+      rect.className = 'touchpoint-rect-spin';
+      rect.style.position = 'absolute';
+      rect.style.left = `${x - 0.5}px`;
+      rect.style.top = `${y - 4}px`;
+      rect.style.width = '1px';
+      rect.style.height = '8px';
+      rect.style.borderRadius = '0.5px';
+      rect.style.background = color;
+      rect.style.opacity = '0.9';
+      rect.style.boxShadow = '0 0 4px 1px #fff9';
+      rectsContainer.appendChild(rect);
+    }
   }
 
   function startHold(e) {
@@ -205,18 +297,9 @@ function setupTouchpointWidget() {
     moodQuote.textContent = "";
     moodDescription.textContent = "";
     startTime = performance.now();
-
-    let x, y;
-    if (e.touches && e.touches.length) {
-      x = e.touches[0].clientX;
-      y = e.touches[0].clientY;
-    } else {
-      x = e.clientX;
-      y = e.clientY;
-    }
-    createSoftRipple(section, x, y);
-
-    animFrame = requestAnimationFrame(updateGradientLive);
+    rotation = 0;
+    updateGradientLive();
+    centerDot.style.boxShadow = "0 0 96px 32px #fff7";
   }
 
   function endHold() {
@@ -229,27 +312,61 @@ function setupTouchpointWidget() {
     section.style.setProperty('--grad1', mood.stops[0]);
     section.style.setProperty('--grad2', mood.stops[1]);
     main.style.color = mood.textColor;
+    centerDot.style.background = mood.stops[0];
+    centerDot.style.boxShadow = "0 0 32px 1px #fff7";
 
+    // Remove rectangles
+    rectsContainer.innerHTML = "";
+    rectsActive = false;
+
+    // Show result
     moodName.textContent = mood.name;
     moodDescription.textContent = mood.description;
     moodQuote.textContent = randomItem(mood.quotes);
-    instruction.textContent = "Tap, hold, interact. →";
-    lastTextColor = mood.textColor;
+    instruction.textContent = "Press and hold to reveal your mood →";
   }
 
   // Desktop
-  section.addEventListener("mousedown", startHold);
-  section.addEventListener("mouseup", endHold);
-  section.addEventListener("mouseleave", endHold);
+  animationSpace.addEventListener("mousedown", startHold);
+  animationSpace.addEventListener("mouseup", endHold);
+  animationSpace.addEventListener("mouseleave", endHold);
 
   // Mobile
-  section.addEventListener("touchstart", startHold, { passive: false });
-  section.addEventListener("touchend", endHold);
-  section.addEventListener("touchcancel", endHold);
+  animationSpace.addEventListener("touchstart", startHold, { passive: false });
+  animationSpace.addEventListener("touchend", endHold);
+  animationSpace.addEventListener("touchcancel", endHold);
+}
+
+// Inject CSS for rectangles and layout
+function injectTouchpointCSS() {
+  if (document.getElementById('touchpoint-rect-spin-style')) return;
+  const style = document.createElement('style');
+  style.id = 'touchpoint-rect-spin-style';
+  style.innerHTML = `
+  .touchpoint-rect-spin {
+    position: absolute;
+    width: 1px;
+    height: 8px;
+    border-radius: 0.5px;
+    background: #fff;
+    opacity: 0.9;
+    box-shadow: 0 0 4px 1px #fff9;
+    z-index: 9;
+  }
+  .touchpoint-center-dot {
+    cursor: pointer;
+  }
+  `;
+  document.head.appendChild(style);
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", setupTouchpointWidget);
+  document.addEventListener("DOMContentLoaded", () => {
+    injectTouchpointCSS();
+    setupTouchpointWidget();
+  });
 } else {
+  injectTouchpointCSS();
   setupTouchpointWidget();
 }
+

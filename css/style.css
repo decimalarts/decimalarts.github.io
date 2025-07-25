@@ -726,7 +726,7 @@ a:hover, a:focus {
   background: linear-gradient(120deg, #f8fafc 60%, #e0e7ef 100%);
   box-sizing: border-box;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: visible;
   margin: 0;
   padding: 0;
   transition: background 0.7s cubic-bezier(.4,0,.2,1);
